@@ -19,13 +19,6 @@ class CountriesRepository extends ServiceEntityRepository
         parent::__construct($registry, Countries::class);
     }
 
-    public function save(Countries $Countries): Countries {
-        $this->_em->persist($countries);
-        $this->_em->flush();
-
-        return $countries;
-    }
-
     // /**
     //  * @return Countries[] Returns an array of Countries objects
     //  */
