@@ -21,28 +21,34 @@ class CountriesController extends AbstractController
     {   
         if (array_key_exists('id', $_GET)) {
             $country = $repository->find($_GET['id']);
-            $jsonCountryArray = [
-                'id' => $country->getId(),
-                'country' =>$country->getCountry(),
-                'region' => $country->getRegion(),
-                'freedom' => $country->getFreedom(),
-                'gender' => $country->getGender(),
-                'lgbtq' => $country->getLgbtq(),
-                'environment' => $country->getEnvironment(),
-                'corruption' => $country->getCorruption(),
-                'inequality' => $country->getInequality(),
-                'total' => $country->getTotal()
-            ];
-            return new JsonResponse(
-                json_encode($jsonCountryArray),
-                JsonResponse::HTTP_OK,
-                [],
-                true
-            );
+            if (!is_null($country)) {
+                $jsonCountryArray = [
+                    'id' => $country->getId(),
+                    'country' =>$country->getCountry(),
+                    'region' => $country->getRegion(),
+                    'freedom' => $country->getFreedom(),
+                    'gender' => $country->getGender(),
+                    'lgbtq' => $country->getLgbtq(),
+                    'environment' => $country->getEnvironment(),
+                    'corruption' => $country->getCorruption(),
+                    'inequality' => $country->getInequality(),
+                    'total' => $country->getTotal()
+                ];
+                return new JsonResponse(
+                    json_encode($jsonCountryArray),
+                    JsonResponse::HTTP_OK,
+                    [],
+                    true
+                );
+            } else {
+                return new JsonResponse(
+                    ["error" => "ID does not exits"],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
 
             // The following does not work for some reason, thus the detour via an array
             // ################
-            // var_dump($country);
             // return new JsonResponse(
             //     $serializer->serialize($country, 'json'),
             //     JsonResponse::HTTP_OK,
