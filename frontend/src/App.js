@@ -1,14 +1,9 @@
-import {useEffect, useReducer} from 'react'
+import {useEffect, useReducer, useState} from 'react'
 import countriesReducer from './reducer/countriesReducer'
-import Select from 'react-select'
 
 import Header from './components/Header'
-
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
-]
+import CountryDropdowns from './components/CountryDropdowns'
+import CountryDataLists from './components/CountryDataLists'
 
 function App() {
 
@@ -16,6 +11,11 @@ function App() {
     countriesReducer,
     {data: [], isLoading: false, isError: false}
   )
+  
+  const [displayedCountries, setDisplayedCountries] = useState({
+    countryLeft: {},
+    countryRight: {}
+  })
   
   useEffect(() => {
     setCountries({type: 'COUNTRIES_FETCH_INIT'})
@@ -34,7 +34,14 @@ function App() {
     <div className="App">
       <Header/>
      {countries.isError ?? <p>An error occurred while fetching data</p>}
-     {countries.isLoading ? <p>Loading...</p> : <Select options={countries.data.map(country => ({value: country.id, label: country.country}))} />}
+     {countries.isLoading ?
+        (<p>Loading...</p>) : 
+        (<CountryDropdowns 
+          handleDisplayedCountries = {setDisplayedCountries} 
+          displayedCountries = {displayedCountries}
+          countries = {countries.data}
+          />)}
+        <CountryDataLists displayedCountries={displayedCountries}/>
     </div>
   );
 }
