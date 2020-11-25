@@ -3,7 +3,6 @@ import styled from 'styled-components/macro'
 
 export default function CountryDropdowns ({countries, handleDisplayedCountries, displayedCountries}) {
 
-
     const dropdownOptions = countries.map(country => ({
             value: country, 
             label: country.country

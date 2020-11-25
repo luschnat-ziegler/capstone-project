@@ -1,4 +1,11 @@
 import styled from 'styled-components/macro'
+import { scaleSequential} from 'd3-scale'
+import { interpolateRdYlGn } from 'd3-scale-chromatic'
+import PropTypes from 'prop-types'
+
+const colorScale = scaleSequential()
+    .domain([0,100])
+    .interpolator(interpolateRdYlGn)
 
 export default function SymmetricCountryChart ({Countries}) {
 
@@ -55,7 +62,7 @@ function LeftBar({dataValue}) {
     if (dataValue) {
         const valueStr = String(dataValue)+"%"
         return(<BarContainer>
-            <div style={{width: valueStr, height: '100%',position: 'absolute', right: '0', backgroundColor: 'red'}}></div>
+            <div style={{width: valueStr, height: '100%',position: 'absolute', right: '0', backgroundColor: colorScale(dataValue)}}></div>
         </BarContainer>)
     } else {
         return <p>No data</p>
@@ -66,7 +73,7 @@ function RightBar({dataValue}) {
     if (dataValue) {
         const valueStr = String(dataValue)+"%"
         return(<BarContainer>
-            <div style={{width: valueStr, height: '100%',position: 'absolute', left: '0', backgroundColor: 'red'}}></div>
+            <div style={{width: valueStr, height: '100%',position: 'absolute', left: '0', backgroundColor: colorScale(dataValue)}}></div>
         </BarContainer>)
     } else {
         return <p>No data</p>
@@ -74,6 +81,7 @@ function RightBar({dataValue}) {
 }
 
 const Wrapper = styled.div`
+    text-align: center;
     width: 375px;
     display: grid;
     grid-template-columns: 10fr 1fr 10fr;
@@ -84,6 +92,12 @@ const Divider = styled.div`
     height: 20px;
     width: 100%;    
 `
+
+// background-color: ${props => props.color};
+
+Divider.propTypes = {
+    color: PropTypes.string
+}
 
 const CategoryHeading = styled.h3`
     grid-column: 1 / span 3;
