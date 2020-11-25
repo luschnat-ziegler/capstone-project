@@ -22,6 +22,7 @@ export default function CountryDropdowns ({countries, handleDisplayedCountries, 
         </Wrapper>
     )
 
+    // ToDo: Refactor into one function
     function handlerLeft (e) {
         handleDisplayedCountries({
             countryLeft: e.value,

@@ -3,7 +3,9 @@ import countriesReducer from './reducer/countriesReducer'
 
 import Header from './components/Header'
 import CountryDropdowns from './components/CountryDropdowns'
-import CountryDataLists from './components/CountryDataLists'
+// import CountryDataLists from './components/CountryDataLists'
+import SymmetricCountryChart from './components/SymmetricCountryChart'
+import GlobalStyles from "./GlobalStyles";
 
 function App() {
 
@@ -32,6 +34,7 @@ function App() {
 
   return (
     <div className="App">
+      <GlobalStyles/>
       <Header/>
      {countries.isError ?? <p>An error occurred while fetching data</p>}
      {countries.isLoading ?
@@ -41,7 +44,8 @@ function App() {
           displayedCountries = {displayedCountries}
           countries = {countries.data}
           />)}
-        <CountryDataLists displayedCountries={displayedCountries}/>
+        <SymmetricCountryChart Countries={displayedCountries}/>
+        {/*<CountryDataLists displayedCountries={displayedCountries}/>*/}
     </div>
   );
 }
