@@ -2,6 +2,7 @@ import {useEffect, useReducer, useState} from 'react'
 import countriesReducer from './reducer/countriesReducer'
 
 import Header from './components/Header'
+import Footer from './components/Footer'
 import CountryDropdowns from './components/CountryDropdowns'
 import SymmetricCountryChart from './components/SymmetricCountryChart'
 import GlobalStyles from "./GlobalStyles";
@@ -44,8 +45,9 @@ function App() {
           displayedCountries = {displayedCountries}
           countries = {countries.data}
           />
-        <SymmetricCountryChart Countries={displayedCountries}/>
+        <SymmetricCountryChart countries={displayedCountries}/>
         </>)}
+      <Footer/>
     </div>
   );
 }

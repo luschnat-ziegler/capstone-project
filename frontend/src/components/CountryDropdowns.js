@@ -39,6 +39,7 @@ export default function CountryDropdowns ({countries, handleDisplayedCountries, 
 
 const Wrapper = styled.div`
     display: flex;
+    padding: 10px 5px;
     justify-content: space-between;
     width: 100%;
 `

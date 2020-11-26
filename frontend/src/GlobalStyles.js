@@ -6,4 +6,5 @@ export default createGlobalStyle`
         box-sizing: border-box;
         font-size: 16px;
         font-family: Arial, Helvetica, sans-serif;
-    }`
+    }
+    `
