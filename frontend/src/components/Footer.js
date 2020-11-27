@@ -1,11 +1,15 @@
 import styled from 'styled-components/macro'
 
+// Main export
+
 export default function Footer () {
     return(<Wrapper>
         Placeholder for NavBar
     </Wrapper>
     )
 }
+
+// Styled components
 
 const Wrapper = styled.footer`
     position: fixed;
