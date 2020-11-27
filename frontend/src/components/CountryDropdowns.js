@@ -1,5 +1,8 @@
 import Select from 'react-select'
 import styled from 'styled-components/macro'
+import PropTypes from 'prop-types'
+
+//Main export
 
 export default function CountryDropdowns ({countries, handleDisplayedCountries, displayedCountries}) {
 
@@ -24,18 +27,21 @@ export default function CountryDropdowns ({countries, handleDisplayedCountries, 
     // ToDo: Refactor into one function
     function handlerLeft (e) {
         handleDisplayedCountries({
-            countryLeft: e.value,
-            countryRight: displayedCountries.countryRight
+            ...displayedCountries,
+            countryLeft: e.value
         })
     }
-
+    
     function handlerRight (e) {
         handleDisplayedCountries({
-            countryLeft: displayedCountries.countryLeft,
+            ...displayedCountries,
             countryRight: e.value
         })
     }
+    
 }
+
+// Styling and styled components
 
 const Wrapper = styled.div`
     display: flex;
@@ -50,3 +56,11 @@ const styles = {
       flex: 1
     })
   };
+
+// Proptypes
+
+CountryDropdowns.propTypes = {
+    displayedCountries: PropTypes.object,
+    countries: PropTypes.array,
+    handleDisplayedCountries: PropTypes.func
+}
