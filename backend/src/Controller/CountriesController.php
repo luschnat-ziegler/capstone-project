@@ -30,7 +30,7 @@ class CountriesController extends AbstractController
                 );    
             } else {
                 return new JsonResponse(
-                    ["error" => "ID does not exits"],
+                    ["error" => "ID does not exist"],
                     JsonResponse::HTTP_BAD_REQUEST
                 );
             }
