@@ -36,7 +36,7 @@ function App() {
     <div className="App">
       <GlobalStyles/>
       <Header/>
-     {countries.isError ?? <p>An error occurred while fetching data</p>}
+     {countries.isError && <p>An error occurred while fetching data</p>}
      {countries.isLoading ?
         (<p>Loading...</p>) : 
         (<>
