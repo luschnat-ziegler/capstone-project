@@ -25,6 +25,10 @@ class UserRepository extends ServiceEntityRepository
         return $user;
     }
 
+    public function login(string $email, string $password): ?User {
+        return $this->findOneby(['email' => $email, 'password' => $password]);
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

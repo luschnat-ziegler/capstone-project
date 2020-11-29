@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TokenRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TokenRepository::class)
@@ -19,17 +20,20 @@ class Token
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"token_response", "full"})
      */
     private $value;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"token_response", "full"})
      */
     private $validUntil;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tokens")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"full"})
      */
     private $user;
 

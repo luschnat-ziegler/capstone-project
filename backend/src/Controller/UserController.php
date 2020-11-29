@@ -10,31 +10,33 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 use App\Repository\UserRepository;
 use App\Entity\User;
+use App\Serializer\UserSerializer;
 
 class UserController extends AbstractController
 {
     /**
      * @Route("/user", methods={"GET"})
      */
+
     public function index(
-        SerializerInterface $serializer,
+        UserSerializer $serializer,
         UserRepository $repository
     ): JsonResponse 
     {
         $users = $repository->findAll();
 
         return new JsonResponse(
-            $serializer->serialize($users, 'json'),
+            $serializer->serialize($users),
             JsonResponse::HTTP_OK,
             [],
             true
         );
     }
 
-
     /**
      * @Route("/user", methods={"POST"})
      */
+
     public function register(
         Request $request,
         SerializerInterface $serializer,
@@ -43,8 +45,8 @@ class UserController extends AbstractController
     {
         $user = $serializer->deserialize($request->getContent(), User::class, 'json');
         
-        $isEmailInUse = $repository->findBy(['email' => $user->getEmail()]);
-        if(sizeof($isEmailInUse) >= 0) {
+        $emailInUse = $repository->findBy(['email' => $user->getEmail()]);
+        if(sizeof($emailInUse) > 0) {
             return $this->json(["userRegistration"=>false], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
