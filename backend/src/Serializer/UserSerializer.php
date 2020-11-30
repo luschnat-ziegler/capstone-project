@@ -16,7 +16,13 @@ class UserSerializer {
             'firstName' => $element->getFirstName(),
             'lastName' => $element->getLastName(),
             'email' => $element->getEmail(),
-            'password' => $element->getPassword()
+            'password' => $element->getPassword(),
+            'weightEnvironment' => $element->getWeightEnvironment(),
+            'weightGender' => $element->getWeightGender(),
+            'weightLgbtq' => $element->getWeightLgbtq(),
+            'weightEquality' => $element->getWeightEquality(),
+            'weightCorruption' => $element->getWeightCorruption(),
+            'weightFreedom' => $element->getWeightFreedom()
         ];       
         return($this);
     }
