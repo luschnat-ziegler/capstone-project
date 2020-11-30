@@ -29,65 +29,14 @@ class UserController extends AbstractController
         AuthenticationService $authentication
     ): JsonResponse 
     {
-        if (!$authentication->isValid($request)) {
+        $authData = $authentication->validateUser($request);
+        
+        if ($authData['success'] === false) {
             return $this->json(["success" => false], JsonResponse::HTTP_UNAUTHORIZED);
-        }   
-
-        $authHeader = $request->headers->get('Authorization');
-        $tokenValue = substr($authHeader, strpos($authHeader, ' ')+1);
-
-        $token = $tokenRepository->findOneBy([
-            'value' => $tokenValue
-        ]);
-
-        $user = $token->getUser();
+        }
         
         return new JsonResponse(
-            $serializer->serialize($user, 'json'),
-            JsonResponse::HTTP_OK,
-            [],
-            true
-        );
-
-    }
-
-    /**
-     * @Route("/user_update", methods={"POST"})
-     */
-
-    public function update(
-        UserSerializer $serializer,
-        Request $request,
-        AuthenticationService $authentication,
-        TokenRepository $tokenRepository,
-        UserRepository $repository
-    ): JsonResponse
-    {
-        if (!$authentication->isValid($request)) {
-            return $this->json(["success" => false], JsonResponse::HTTP_UNAUTHORIZED);
-        } 
-
-        $authHeader = $request->headers->get('Authorization');
-        $tokenValue = substr($authHeader, strpos($authHeader, ' ')+1);
-
-        $token = $tokenRepository->findOneBy([
-            'value' => $tokenValue
-        ]);
-        
-        $post = json_decode($request->getContent(), true);
-
-        $user = $token->getUser();
-        $user->setWeightEnvironment($post['weightEnvironment']);
-        $user->setWeightGender($post['weightGender']);
-        $user->setWeightLgbtq($post['weightLgbtq']);
-        $user->setWeightFreedom($post['weightFreedom']);
-        $user->setWeightEquality($post['weightEquality']);
-        $user->setWeightCorruption($post['weightCorruption']);
-
-        $repository->save($user);
-
-        return new JsonResponse(
-            $serializer->serialize($user, 'json'),
+            $serializer->serialize($authData["user"], 'json'),
             JsonResponse::HTTP_OK,
             [],
             true
@@ -110,6 +59,44 @@ class UserController extends AbstractController
         if(sizeof($emailInUse) > 0) {
             return $this->json(["userRegistration"=>false], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
+
+        $repository->save($user);
+
+        return new JsonResponse(
+            $serializer->serialize($user, 'json'),
+            JsonResponse::HTTP_OK,
+            [],
+            true
+        );
+    }
+
+    /**
+     * @Route("/user_update", methods={"POST"})
+     */
+
+    public function update(
+        UserSerializer $serializer,
+        Request $request,
+        AuthenticationService $authentication,
+        TokenRepository $tokenRepository,
+        UserRepository $repository
+    ): JsonResponse
+    {
+        $authData = $authentication->validateUser($request);
+        
+        if ($authData['success'] === false) {
+            return $this->json(["success" => false], JsonResponse::HTTP_UNAUTHORIZED);
+        }
+        
+        $user = $authData["user"];
+        $post = json_decode($request->getContent(), true);
+
+        $user->setWeightEnvironment($post['weightEnvironment']);
+        $user->setWeightGender($post['weightGender']);
+        $user->setWeightLgbtq($post['weightLgbtq']);
+        $user->setWeightFreedom($post['weightFreedom']);
+        $user->setWeightEquality($post['weightEquality']);
+        $user->setWeightCorruption($post['weightCorruption']);
 
         $repository->save($user);
 

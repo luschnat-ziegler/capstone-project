@@ -19,10 +19,10 @@ class AuthenticationService {
         $this->userRepository = $userRepository;
     }
 
-    public function isValid(Request $request): bool {
+    public function validateUser(Request $request): array {
         $authHeader = $request->headers->get('Authorization');
         if(is_null($authHeader)) {
-            return false;
+            return ["success" => false];
         }
 
         $tokenValue = substr($authHeader, strpos($authHeader, ' ')+1);
@@ -31,6 +31,14 @@ class AuthenticationService {
         ]);
 
         $now = new \Datetime();
-        return !is_null($token) && $now < $token->getValidUntil();
+        if (!is_null($token) && $now < $token->getValidUntil()) {
+            $user = $token->getUser();
+            return [
+                "success" => true,
+                "user" => $user
+            ];
+        } else {
+            return ["success" => false];
+        }
     }
 }

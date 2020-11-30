@@ -6,16 +6,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TokenController extends AbstractController
+class CommentController extends AbstractController
 {
     /**
-     * @Route("/token", name="token")
+     * @Route("/comment", name="comment")
      */
     public function index(): Response
     {
         return $this->json([
             'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/TokenController.php',
+            'path' => 'src/Controller/CommentController.php',
         ]);
     }
 }
