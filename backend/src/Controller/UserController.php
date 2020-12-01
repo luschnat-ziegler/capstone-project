@@ -91,6 +91,7 @@ class UserController extends AbstractController
         $user = $authData["user"];
         $post = json_decode($request->getContent(), true);
 
+        //ToDo: Implement as method in user entity
         $user->setWeightEnvironment($post['weightEnvironment']);
         $user->setWeightGender($post['weightGender']);
         $user->setWeightLgbtq($post['weightLgbtq']);
