@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 use App\Repository\CountriesRepository;
 use App\Entity\Countries;
+use App\Serializer\CountriesSerializer;
 
 class CountriesController extends AbstractController
 {
@@ -17,13 +17,13 @@ class CountriesController extends AbstractController
      * @Route("/countries", methods={"GET"})
      */
     
-    public function index(CountriesRepository $repository, SerializerInterface $serializer): JsonResponse
+    public function index(CountriesRepository $repository, CountriesSerializer $serializer): JsonResponse
     {   
         if (array_key_exists('id', $_GET)) {
             $country = $repository->find($_GET['id']);
             if (!is_null($country)) {
                 return new JsonResponse(
-                    $serializer->serialize($country, 'json'),
+                    $serializer->serialize($country),
                     JsonResponse::HTTP_OK,
                     [],
                     true
@@ -37,7 +37,7 @@ class CountriesController extends AbstractController
         } else {
             $countries = $repository->findAll();
             return new JsonResponse(
-                $serializer->serialize($countries, 'json'),
+                $serializer->serialize($countries),
                 JsonResponse::HTTP_OK,
                 [],
                 true
