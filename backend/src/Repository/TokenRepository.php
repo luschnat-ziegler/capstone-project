@@ -21,8 +21,7 @@ class TokenRepository extends ServiceEntityRepository
 
     public function create(Object $user): Token
     {
-        $validUntil = new \Datetime();
-        $validUntil->modify('+1 day');
+        $validUntil = new \Daytime('+ 1 day');
 
         $token = new Token();
         $token->setValue(uniqid('', true));
