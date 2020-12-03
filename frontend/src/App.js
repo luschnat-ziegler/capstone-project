@@ -1,52 +1,47 @@
-import {useEffect, useReducer, useState} from 'react'
-import countriesReducer from './reducer/countriesReducer'
+import {useEffect, useReducer} from 'react'
+import {Route, Switch} from 'react-router-dom'
+import loadingReducer from './reducer/loadingReducer'
 
+import Home from './components/Home'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import CountryDropdowns from './components/CountryDropdowns'
-import SymmetricCountryChart from './components/SymmetricCountryChart'
-import GlobalStyles from "./GlobalStyles";
+import GlobalStyles from "./GlobalStyles"
+import UserPage from './components/userpage/UserPage'
 
 function App() {
 
-  const [countries, setCountries] = useReducer(
-    countriesReducer,
+  const [allCountries, dispatchAllCountries] = useReducer(
+    loadingReducer,
     {data: [], isLoading: false, isError: false}
   )
   
-  const [displayedCountries, setDisplayedCountries] = useState({
-    countryLeft: {},
-    countryRight: {}
-  })
-  
   useEffect(() => {
-    setCountries({type: 'COUNTRIES_FETCH_INIT'})
+    dispatchAllCountries({type: 'FETCH_INIT'})
     fetch('http://countrycheck.local/countries')
       .then(response => response.json())
       .then(result => {
-          setCountries({
-          type: 'COUNTRIES_FETCH_SUCCESS',
+          dispatchAllCountries({
+          type: 'FETCH_SUCCESS',
           payload: result
           })
       })
-      .catch(() => setCountries({type: 'COUNTRIES_FETCH_FAILURE'}))
+      .catch(() => dispatchAllCountries({type: 'FETCH_FAILURE'}))
   }, [])
 
   return (
     <div className="App">
       <GlobalStyles/>
       <Header/>
-     {countries.isError && <p>An error occurred while fetching data</p>}
-     {countries.isLoading ?
-        (<p>Loading...</p>) : 
-        (<>
-        <CountryDropdowns 
-          handleDisplayedCountries = {setDisplayedCountries} 
-          displayedCountries = {displayedCountries}
-          countries = {countries.data}
-          />
-        <SymmetricCountryChart countries={displayedCountries}/>
-        </>)}
+      <main>
+        <Switch>
+          <Route exact path="/">
+            <Home countries={allCountries}/>
+          </Route>
+          <Route path="/user" >
+            <UserPage/>
+          </Route>
+        </Switch>
+      </main>
       <Footer/>
     </div>
   );

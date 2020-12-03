@@ -7,7 +7,7 @@ use App\Entity\Token;
 class TokenSerializer {
 
     public function serialize($token) {
-        $elementArray[] = [
+        $elementArray = [
             'value' => $token->getValue(),
             'validUntil' => $token->getValidUntil(),
             'user' => $token->getUser()->getId()
