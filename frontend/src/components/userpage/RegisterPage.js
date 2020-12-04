@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import {Redirect} from 'react-router-dom'
 import {validateRegistration} from '../../services/validations'
+import {ContentContainer, Wrapper, SubHeading, GridForm, SubmitButton,FailureNotification} from '../ReusableComponents'
 
 export default function RegisterPage () {
 
@@ -13,27 +14,24 @@ export default function RegisterPage () {
 
     const [failure, setFailure] = useState()
 
-    return <form onSubmit={submitForm}>
-        {failure && <p>Please try again</p>}
+    return <Wrapper>
         {failure === false && <Redirect to="/user/login"/>}
-        <div>
-            <label htmlFor="firstName"><strong>First Name</strong></label>
-            <input type="text" name="firstName" onChange={handleChange} value={registrationData.firstName}></input>
-        </div>
-        <div>
-            <label htmlFor="lastName"><strong>Last Name</strong></label>
-            <input type="text" name="lastName" onChange={handleChange} value={registrationData.lastName}></input>
-        </div>
-        <div>
-            <label htmlFor="email"><strong>E-Mail</strong></label>
-            <input type="text" name="email" onChange={handleChange} value={registrationData.email}></input>
-        </div>
-        <div>
-            <label htmlFor="password"><strong>Password</strong></label>
-            <input type="text" name="password" onChange={handleChange} value={registrationData.password}></input>
-        </div>
-        <button>Register</button>
-    </form>
+            <ContentContainer>
+            <SubHeading>Register new account:</SubHeading>
+            <GridForm onSubmit={submitForm}>
+                <label htmlFor="firstName"><strong>First Name</strong></label>
+                <input type="text" name="firstName" onChange={handleChange} value={registrationData.firstName}></input>
+                <label htmlFor="lastName"><strong>Last Name</strong></label>
+                <input type="text" name="lastName" onChange={handleChange} value={registrationData.lastName}></input>
+                <label htmlFor="email"><strong>E-Mail</strong></label>
+                <input type="text" name="email" onChange={handleChange} value={registrationData.email}></input>
+                <label htmlFor="password"><strong>Password</strong></label>
+                <input type="text" name="password" onChange={handleChange} value={registrationData.password}></input>
+                <SubmitButton>Submit</SubmitButton>
+            </GridForm>
+            {failure && <FailureNotification>Please try again</FailureNotification>}
+        </ContentContainer>
+    </Wrapper>
 
     function handleChange(event) {
         const fieldValue = event.target.value
@@ -62,3 +60,4 @@ export default function RegisterPage () {
         }
     }
 }
+

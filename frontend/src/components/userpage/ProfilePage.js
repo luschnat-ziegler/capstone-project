@@ -1,12 +1,11 @@
-import styled from 'styled-components/macro'
-
 import Slider from 'rc-slider' 
 import 'rc-slider/assets/index.css'
 import { useState } from 'react'
+import { Wrapper, ContentContainer, Heading, SubHeading } from '../ReusableComponents'
 
-import { loadToken } from '../../services/tokenStorage'
+import { loadToken, deleteToken } from '../../services/tokenStorage'
 
-export default function ProfilePage({userData}) {
+export default function ProfilePage({userData, handleStatusChange, status}) {
 
     const [sliderValues, setSliderValues] = useState({
         weightGender: userData.weightGender === null ? 2 : userData.weightGender,
@@ -71,6 +70,7 @@ export default function ProfilePage({userData}) {
                     />
                 <button onClick={submitPrefs}>Submit!</button>
             </ContentContainer>
+            <button onClick={logOut}>Log me out!</button>
         </Wrapper>
     )
 
@@ -89,30 +89,18 @@ export default function ProfilePage({userData}) {
             method: 'post',
             body: JSON.stringify(sliderValues) 
         }).then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+            if (data.loggedIn === false) {
+                handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
+            } else {
+                alert("Update complete")
+            }
+        })
+        .catch(error => console.log(error))
+    }
+
+    function logOut() {
+        deleteToken()
+        handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
     }
 }
-
-const Wrapper = styled.div`
-    margin: 10px;
-    width: 355px;
-`
-
-const ContentContainer = styled.div`
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 1em;
-    margin-bottom: 10px;
-`
-
-const Heading = styled.h2`
-    text-align: center;
-    font-size: 1.3em;
-    padding: 5px;
-` 
-
-const SubHeading = styled.h3`
-    font-size: 1.1em;
-    padding-top: 5px;
-    padding-bottom: 5px;
-`

@@ -2,6 +2,8 @@ import {useState} from 'react'
 import {validateEmail} from '../../services/validations'
 import {saveToken} from '../../services/tokenStorage'
 import {Redirect} from 'react-router-dom'
+import {ContentContainer, Wrapper, SubHeading, GridForm, SubmitButton, FailureNotification} from '../ReusableComponents'
+
 
 export default function LoginPage ({handleStatusChange, status}) {
 
@@ -12,19 +14,20 @@ export default function LoginPage ({handleStatusChange, status}) {
 
     const [failure, setFailure] = useState()
 
-    return <form onSubmit={submitForm}>
-        {failure && <p>Please try again</p>}
+    return <Wrapper>
         {failure === false && <Redirect to="/user"/>}
-        <div>
-            <label htmlFor="email"><strong>E-mail</strong></label>
-            <input type="text" name="email" onChange={handleChange} value={logInData.email}></input>
-        </div>
-        <div>
-            <label htmlFor="password"><strong>Password</strong></label>
-            <input type="text" name="password" onChange={handleChange} value={logInData.password}></input>
-        </div>
-        <button>Log In</button>
-    </form>
+        <ContentContainer>
+            <SubHeading>Log in</SubHeading>
+            <GridForm onSubmit={submitForm}>
+                <label htmlFor="email"><strong>E-mail</strong></label>
+                <input type="text" name="email" onChange={handleChange} value={logInData.email}></input>
+                <label htmlFor="password"><strong>Password</strong></label>
+                <input type="text" name="password" onChange={handleChange} value={logInData.password}></input>
+                <SubmitButton>Log In</SubmitButton>
+            </GridForm>
+            {failure && <FailureNotification>Please try again</FailureNotification>}
+        </ContentContainer>
+    </Wrapper>
 
     function handleChange(event) {
         const fieldValue = event.target.value

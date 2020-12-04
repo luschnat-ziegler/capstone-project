@@ -37,7 +37,13 @@ export default function UserPage () {
     return <>
         {userData.isError && <p>An error occurred while fetching data</p>}
         {userData.isLoading ? (<p>Loading...</p>) :
-            ((userData.data.hasOwnProperty('loggedIn')? <ChoicePage/>: <ProfilePage userData={userData.data}/>))
+            ((userData.data.hasOwnProperty('loggedIn')? 
+                <ChoicePage/>: 
+                <ProfilePage 
+                    userData={userData.data} 
+                    handleStatusChange={setUserLogInChange} 
+                    status={userLogInChange}
+                />))
         }
         <Switch>
             <Route path={`${useRouteMatch().path}/login`}>
