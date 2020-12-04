@@ -5,6 +5,9 @@ import ChartSection from './Chartsection'
 // Main export
 
 export default function SymmetricCountryChart ({countries}) {
+
+    console.log(countries)
+
     return(<Wrapper>
         <ChartSection displayedCountries={countries} entry={'total'} heading={'Total Score'}/>
         <ChartSection displayedCountries={countries} entry={'freedom'} heading={'Democracy and Freedom'}/>

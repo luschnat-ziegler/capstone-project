@@ -3,7 +3,7 @@ import {validateEmail} from '../../services/validations'
 import {saveToken} from '../../services/tokenStorage'
 import {Redirect} from 'react-router-dom'
 
-export default function LoginPage () {
+export default function LoginPage ({handleStatusChange, status}) {
 
     const [logInData, setLogInData] = useState ({
         email: '',
@@ -47,6 +47,7 @@ export default function LoginPage () {
                } else {
                    saveToken(data.value)
                    setFailure(false)
+                   handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
                }
            })
         } else {

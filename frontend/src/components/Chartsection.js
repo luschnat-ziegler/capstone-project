@@ -49,7 +49,7 @@ const Bar = styled.div`
     background-color: ${props => colorScale(props.data)};
     height: 30px;
     width: ${props => String(props.data) + "%"};
-    justify-self: ${props => props.left ? 'end' : 'start'};
+    justify-self: ${props => props.left && 'end'};
 `
 
 const NoDataBar = styled.div`
@@ -63,7 +63,7 @@ const NoDataBar = styled.div`
     border-radius: ${props => props.left ? '5px 0 0 5px' : '0 5px 5px 0'};
     height: 30px;
     width: 50%;
-    justify-self: ${props => props.left ? 'end' : 'start'};
+    justify-self: ${props => props.left && 'end'};
 `
 
 // Proptypes for all components
