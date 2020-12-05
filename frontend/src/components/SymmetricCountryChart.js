@@ -4,9 +4,10 @@ import ChartSection from './Chartsection'
 
 // Main export
 
-export default function SymmetricCountryChart ({countries}) {
+export default function SymmetricCountryChart ({countries, displayOptions}) {
 
     return(<Wrapper>
+        {displayOptions.custom && <ChartSection displayedCountries={countries} entry={'userScore'} heading={'Your Score'}/>}
         <ChartSection displayedCountries={countries} entry={'total'} heading={'Total Score'}/>
         <ChartSection displayedCountries={countries} entry={'freedom'} heading={'Democracy and Freedom'}/>
         <ChartSection displayedCountries={countries} entry={'environment'} heading={'Environment and Climate'}/>

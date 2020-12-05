@@ -6,17 +6,14 @@ import LoginPage from './LogInPage'
 import RegisterPage from './RegisterPage'
 import ProfilePage from './ProfilePage'
 import { loadToken } from '../../services/tokenStorage'
-import { useState } from 'react'
 
-export default function UserPage () {
+export default function UserPage ({handleStatusChange, status}) {
 
     const [userData, dispatchUserData] = useReducer(
         loadingReducer,
         {data: [], isLoading: false, isError: false}
       )
-    
-    const [userLogInChange, setUserLogInChange] = useState("toggle")
-    
+        
       useEffect(() => {
         dispatchUserData({type: 'FETCH_INIT'})
         fetch('http://countrycheck.local/user', {
@@ -32,7 +29,7 @@ export default function UserPage () {
               })
           })
           .catch(() => dispatchUserData({type: 'FETCH_FAILURE'}))
-      },[userLogInChange])
+      },[status])
     
     return <>
         {userData.isError && <p>An error occurred while fetching data</p>}
@@ -41,13 +38,13 @@ export default function UserPage () {
                 <ChoicePage/>: 
                 <ProfilePage 
                     userData={userData.data} 
-                    handleStatusChange={setUserLogInChange} 
-                    status={userLogInChange}
+                    handleStatusChange={handleStatusChange} 
+                    status={status}
                 />))
         }
         <Switch>
             <Route path={`${useRouteMatch().path}/login`}>
-                <LoginPage handleStatusChange={setUserLogInChange} status={userLogInChange}/>
+                <LoginPage handleStatusChange={handleStatusChange} status={status}/>
             </Route>
             <Route path={`${useRouteMatch().path}/register`}>
                 <RegisterPage/>

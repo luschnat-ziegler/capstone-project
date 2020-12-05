@@ -1,6 +1,8 @@
-import {useEffect, useReducer} from 'react'
+import {useEffect, useReducer, useState} from 'react'
 import {Route, Switch} from 'react-router-dom'
 import loadingReducer from './reducer/loadingReducer'
+import getCountriesAndUser from './services/getCountriesAndUser'
+import calcUserScore from './services/calcUserScore'
 
 import Home from './components/Home'
 import Header from './components/Header'
@@ -10,23 +12,24 @@ import UserPage from './components/userpage/UserPage'
 
 function App() {
 
-  const [allCountries, dispatchAllCountries] = useReducer(
+  const [countries, dispatchCountries] = useReducer(
     loadingReducer,
     {data: [], isLoading: false, isError: false}
   )
+
+  const [userLogInChange, setUserLogInChange] = useState("toggle")
   
   useEffect(() => {
-    dispatchAllCountries({type: 'FETCH_INIT'})
-    fetch('http://countrycheck.local/countries')
-      .then(response => response.json())
-      .then(result => {
-          dispatchAllCountries({
+    dispatchCountries({type: 'FETCH_INIT'})
+    getCountriesAndUser()      
+    .then(result => {
+          dispatchCountries({
           type: 'FETCH_SUCCESS',
-          payload: result
+          payload: calcUserScore(result)
           })
       })
-      .catch(() => dispatchAllCountries({type: 'FETCH_FAILURE'}))
-  }, [])
+      .catch(error => dispatchCountries({type: 'FETCH_FAILURE'}))
+  }, [userLogInChange])
 
   return (
     <div className="App">
@@ -35,10 +38,10 @@ function App() {
       <main>
         <Switch>
           <Route exact path="/">
-            <Home countries={allCountries}/>
+            <Home data={countries}/>
           </Route>
           <Route path="/user" >
-            <UserPage/>
+            <UserPage handleStatusChange={setUserLogInChange} status={userLogInChange}/>
           </Route>
         </Switch>
       </main>
