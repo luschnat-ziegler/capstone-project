@@ -1,11 +1,9 @@
 import {useReducer, useEffect} from 'react'
-import {Switch, Route, useRouteMatch} from 'react-router-dom'
 import loadingReducer from '../../reducer/loadingReducer'
-import ChoicePage from './ChoicePage'
-import LoginPage from './LogInPage'
-import RegisterPage from './RegisterPage'
+import getUser from '../../services/getUser'
 import ProfilePage from './ProfilePage'
-import { loadToken } from '../../services/tokenStorage'
+import NotLoggedInPage from './NotLoggedInPage'
+import PropTypes from 'prop-types'
 
 export default function UserPage ({handleStatusChange, status}) {
 
@@ -16,12 +14,7 @@ export default function UserPage ({handleStatusChange, status}) {
         
       useEffect(() => {
         dispatchUserData({type: 'FETCH_INIT'})
-        fetch('http://countrycheck.local/user', {
-            headers: {
-                Authorization: `Bearer ${loadToken()}`
-            } 
-        })
-          .then(response => response.json())
+        getUser()
           .then(result => {
               dispatchUserData({
               type: 'FETCH_SUCCESS',
@@ -35,20 +28,20 @@ export default function UserPage ({handleStatusChange, status}) {
         {userData.isError && <p>An error occurred while fetching data</p>}
         {userData.isLoading ? (<p>Loading...</p>) :
             ((userData.data.hasOwnProperty('loggedIn')? 
-                <ChoicePage/>: 
+                <NotLoggedInPage 
+                    handleStatusChange={handleStatusChange} 
+                    status={status}
+                />:
                 <ProfilePage 
                     userData={userData.data} 
                     handleStatusChange={handleStatusChange} 
                     status={status}
                 />))
         }
-        <Switch>
-            <Route path={`${useRouteMatch().path}/login`}>
-                <LoginPage handleStatusChange={handleStatusChange} status={status}/>
-            </Route>
-            <Route path={`${useRouteMatch().path}/register`}>
-                <RegisterPage/>
-            </Route>
-        </Switch>
     </>
+}
+
+UserPage.propTypes = {
+    handleStatusChange: PropTypes.func,
+    status: PropTypes.string
 }

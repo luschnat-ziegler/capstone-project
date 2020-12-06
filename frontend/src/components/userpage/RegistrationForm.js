@@ -1,9 +1,10 @@
-import {useState} from 'react'
-import {Redirect} from 'react-router-dom'
-import {validateRegistration} from '../../services/validations'
-import {ContentContainer, Wrapper, SubHeading, GridForm, SubmitButton,FailureNotification} from '../ReusableComponents'
-
-export default function RegisterPage () {
+import { useState } from 'react'
+import { SubHeading, GridForm, SubmitButton, FailureNotification } from '../../styles/ReusableComponents'
+import { validateRegistration } from '../../services/validations'
+import { createUser } from '../../services/createUser'
+import PropTypes from 'prop-types'
+ 
+export default function RegisterForm ({setRegistrationOption}) {
 
     const [registrationData, setRegistrationData] = useState ({
         email: '',
@@ -14,11 +15,9 @@ export default function RegisterPage () {
 
     const [failure, setFailure] = useState()
 
-    return <Wrapper>
-        {failure === false && <Redirect to="/user/login"/>}
-            <ContentContainer>
-            <SubHeading>Register new account:</SubHeading>
-            <GridForm onSubmit={submitForm}>
+    return (<>
+        <SubHeading>Register new account:</SubHeading>
+        <GridForm onSubmit={submitForm}>
                 <label htmlFor="firstName"><strong>First Name</strong></label>
                 <input type="text" name="firstName" onChange={handleChange} value={registrationData.firstName}></input>
                 <label htmlFor="lastName"><strong>Last Name</strong></label>
@@ -30,8 +29,7 @@ export default function RegisterPage () {
                 <SubmitButton>Submit</SubmitButton>
             </GridForm>
             {failure && <FailureNotification>Please try again</FailureNotification>}
-        </ContentContainer>
-    </Wrapper>
+    </>)
 
     function handleChange(event) {
         const fieldValue = event.target.value
@@ -44,16 +42,14 @@ export default function RegisterPage () {
     function submitForm(event) {
         event.preventDefault()
         if (validateRegistration(registrationData)) {
-            fetch('http://countrycheck.local/user', {
-                method: 'post',
-                body: JSON.stringify(registrationData)
-            }).then(response => response.json()
-            ).then((data) => {
+            createUser(registrationData)
+            .then((data) => {
                 if(data.userRegistration === false) {
                     setFailure(true)
-                } else (
+                } else {
                     setFailure(false)
-                )
+                    setRegistrationOption(false)
+                }
             })
         } else {
             setFailure(true)
@@ -61,3 +57,7 @@ export default function RegisterPage () {
     }
 }
 
+RegisterForm.propTypes = {
+    handleStatusChange: PropTypes.func,
+    status: PropTypes.string
+}

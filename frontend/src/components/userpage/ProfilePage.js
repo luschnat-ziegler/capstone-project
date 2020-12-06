@@ -1,9 +1,16 @@
 import Slider from 'rc-slider' 
 import 'rc-slider/assets/index.css'
 import { useState } from 'react'
-import { Wrapper, ContentContainer, Heading, SubHeading } from '../ReusableComponents'
+import { 
+    Wrapper, 
+    ContentContainer, 
+    Heading, 
+    SubHeading 
+} from '../../styles/ReusableComponents'
+import PropTypes from 'prop-types'
 
-import { loadToken, deleteToken } from '../../services/tokenStorage'
+import { deleteToken } from '../../services/tokenStorage'
+import updateUser from '../../services/userUpdate'
 
 export default function ProfilePage({userData, handleStatusChange, status}) {
 
@@ -82,13 +89,7 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
     }
 
     function submitPrefs () {
-        fetch('http://countrycheck.local/user_update', {
-            headers: {
-                Authorization: `Bearer ${loadToken()}`
-            },
-            method: 'post',
-            body: JSON.stringify(sliderValues) 
-        }).then(response => response.json())
+        updateUser(sliderValues)
         .then(data => {
             if (data.loggedIn === false) {
                 handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
@@ -103,4 +104,10 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
         deleteToken()
         handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
     }
+}
+
+ProfilePage.propTypes = {
+    handleStatusChange: PropTypes.func,
+    status: PropTypes.string,
+    userData: PropTypes.array
 }

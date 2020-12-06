@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import CountryDropdowns from './CountryDropdowns'
 import SymmetricCountryChart from './SymmetricCountryChart'
-
+import PropTypes from 'prop-types'
 
 export default function Home ({data}) {
 
@@ -27,4 +27,8 @@ export default function Home ({data}) {
          </>)}
          </>
       )
+}
+
+Home.propTypes = {
+  data: PropTypes.object
 }

@@ -4,10 +4,10 @@ import loadingReducer from './reducer/loadingReducer'
 import getCountriesAndUser from './services/getCountriesAndUser'
 import calcUserScore from './services/calcUserScore'
 
-import Home from './components/Home'
+import Home from './components/homepage/Home'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import GlobalStyles from "./GlobalStyles"
+import GlobalStyles from "./styles/GlobalStyles"
 import UserPage from './components/userpage/UserPage'
 
 function App() {

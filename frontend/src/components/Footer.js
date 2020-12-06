@@ -1,8 +1,6 @@
 import styled from 'styled-components/macro'
 import {NavLink} from 'react-router-dom'
 
-// Main export
-
 export default function Footer () {
     return(<Wrapper>
         <NavLinkStyled exact to="/">Home</NavLinkStyled>
@@ -10,8 +8,6 @@ export default function Footer () {
     </Wrapper>
     )
 }
-
-// Styled components
 
 const Wrapper = styled.nav`
     position: fixed;

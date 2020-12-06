@@ -1,11 +1,16 @@
 import {useState} from 'react'
+import {
+    SubHeading, 
+    GridForm, 
+    SubmitButton,
+    FailureNotification
+} from '../../styles/ReusableComponents'
 import {validateEmail} from '../../services/validations'
+import logInUser from '../../services/logInUser'
 import {saveToken} from '../../services/tokenStorage'
-import {Redirect} from 'react-router-dom'
-import {ContentContainer, Wrapper, SubHeading, GridForm, SubmitButton, FailureNotification} from '../ReusableComponents'
+import PropTypes from 'prop-types'
 
-
-export default function LoginPage ({handleStatusChange, status}) {
+export default function LogInForm({handleStatusChange, status}) {
 
     const [logInData, setLogInData] = useState ({
         email: '',
@@ -14,11 +19,9 @@ export default function LoginPage ({handleStatusChange, status}) {
 
     const [failure, setFailure] = useState()
 
-    return <Wrapper>
-        {failure === false && <Redirect to="/user"/>}
-        <ContentContainer>
-            <SubHeading>Log in</SubHeading>
-            <GridForm onSubmit={submitForm}>
+    return (<>
+        <SubHeading>Log in</SubHeading>
+        <GridForm onSubmit={submitForm}>
                 <label htmlFor="email"><strong>E-mail</strong></label>
                 <input type="text" name="email" onChange={handleChange} value={logInData.email}></input>
                 <label htmlFor="password"><strong>Password</strong></label>
@@ -26,8 +29,7 @@ export default function LoginPage ({handleStatusChange, status}) {
                 <SubmitButton>Log In</SubmitButton>
             </GridForm>
             {failure && <FailureNotification>Please try again</FailureNotification>}
-        </ContentContainer>
-    </Wrapper>
+    </>)
 
     function handleChange(event) {
         const fieldValue = event.target.value
@@ -40,21 +42,23 @@ export default function LoginPage ({handleStatusChange, status}) {
     function submitForm(event) {
         event.preventDefault()
         if(validateEmail(logInData.email)) {
-           fetch('http://countrycheck.local/login', {
-               method: 'post',
-               body: JSON.stringify(logInData)
-           }).then(response => response.json()
-           ).then(data => {
-               if (data.success === false) {
-                   setFailure(true)
-               } else {
-                   saveToken(data.value)
-                   setFailure(false)
-                   handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
-               }
-           })
+        logInUser(logInData)
+        .then(data => {
+            if (data.success === false) {
+                setFailure(true)
+            } else {
+                saveToken(data.value)
+                setFailure(false)
+                handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
+            }
+        })
         } else {
             setFailure(true)
         }
     }
+}
+
+LogInForm.propTypes = {
+    handleStatusChange: PropTypes.func,
+    status: PropTypes.string
 }
