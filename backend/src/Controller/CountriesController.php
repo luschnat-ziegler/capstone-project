@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use App\Repository\CountriesRepository;
-use App\Entity\Countries;
 
 class CountriesController extends AbstractController
 {

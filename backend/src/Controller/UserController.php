@@ -6,15 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-
 use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Repository\TokenRepository;
-use App\Entity\Token;
-// use App\Serializer\UserSerializer;
 use App\Service\AuthenticationService;
 
 class UserController extends AbstractController
@@ -89,15 +85,7 @@ class UserController extends AbstractController
         
         $user = $authData["user"];
         $post = json_decode($request->getContent(), true);
-
-        //ToDo: Implement as method in user entity
-        $user->setWeightEnvironment($post['weightEnvironment']);
-        $user->setWeightGender($post['weightGender']);
-        $user->setWeightLgbtq($post['weightLgbtq']);
-        $user->setWeightFreedom($post['weightFreedom']);
-        $user->setWeightEquality($post['weightEquality']);
-        $user->setWeightCorruption($post['weightCorruption']);
-
+        $user->updateWeights($post);
         $repository->save($user);
 
         return $this->json(["success" => true], JsonResponse::HTTP_OK);

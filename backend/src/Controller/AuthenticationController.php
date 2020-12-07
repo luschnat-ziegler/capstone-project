@@ -7,10 +7,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Repository\UserRepository;
 use App\Repository\TokenRepository;
-use App\Serializer\TokenSerializer;
 
 class AuthenticationController extends AbstractController
 {
@@ -21,7 +20,7 @@ class AuthenticationController extends AbstractController
         Request $request,
         UserRepository $userRepository,
         TokenRepository $tokenRepository,
-        TokenSerializer $serializer
+        SerializerInterface $serializer
     ): JsonResponse
     {
         $post = json_decode($request->getContent(), true);
@@ -34,7 +33,11 @@ class AuthenticationController extends AbstractController
         $token = $tokenRepository->create($user);
 
         return new JsonResponse(
-            $serializer->serialize($token),
+            $serializer->serialize($token, 'json', 
+                [
+                    ObjectNormalizer::IGNORED_ATTRIBUTES => ['user', 'validUntil', 'id']
+                ]
+            ),
             JsonResponse::HTTP_OK,
             [],
             true
