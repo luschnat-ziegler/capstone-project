@@ -1,19 +1,19 @@
-const countriesReducer = (state, action) => {
+const loadingReducer = (state, action) => {
     switch (action.type) {
-      case 'COUNTRIES_FETCH_INIT':
+      case 'FETCH_INIT':
         return{
           ...state,
           isLoading: true,
           isError: false
         }
-      case 'COUNTRIES_FETCH_SUCCESS':
+      case 'FETCH_SUCCESS':
         return{
           ...state,
           isLoading: false,
           isError: false,
           data: action.payload
         }
-      case 'COUNTRIES_FETCH_FAILURE':
+      case 'FETCH_FAILURE':
         return{
           ...state,
           isLoading: false,
@@ -24,4 +24,4 @@ const countriesReducer = (state, action) => {
     }
   }
 
-export default countriesReducer
+export default loadingReducer

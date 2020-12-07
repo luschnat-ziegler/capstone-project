@@ -1,18 +1,17 @@
 import styled from 'styled-components/macro'
-
-// Main export
+import {NavLink} from 'react-router-dom'
 
 export default function Footer () {
     return(<Wrapper>
-        Placeholder for NavBar
+        <NavLinkStyled exact to="/">Home</NavLinkStyled>
+        <NavLinkStyled to="/user">User</NavLinkStyled>
     </Wrapper>
     )
 }
 
-// Styled components
-
-const Wrapper = styled.footer`
+const Wrapper = styled.nav`
     position: fixed;
+    display: flex;
     bottom: 0;
     background-color: #0E34A0;
     height: 10vh;
@@ -22,4 +21,14 @@ const Wrapper = styled.footer`
     color: white;
     font-size: 2em;
     text-align: center;
+`
+
+const NavLinkStyled = styled(NavLink)`
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+
+    &.active {
+        color: grey;
+    }
 `

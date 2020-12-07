@@ -2,10 +2,10 @@ import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 import ChartSection from './Chartsection'
 
-// Main export
+export default function SymmetricCountryChart ({countries, displayOptions}) {
 
-export default function SymmetricCountryChart ({countries}) {
     return(<Wrapper>
+        {displayOptions.custom && <ChartSection displayedCountries={countries} entry={'userScore'} heading={'Your Score'}/>}
         <ChartSection displayedCountries={countries} entry={'total'} heading={'Total Score'}/>
         <ChartSection displayedCountries={countries} entry={'freedom'} heading={'Democracy and Freedom'}/>
         <ChartSection displayedCountries={countries} entry={'environment'} heading={'Environment and Climate'}/>
@@ -16,8 +16,6 @@ export default function SymmetricCountryChart ({countries}) {
     </Wrapper>)
 }
 
-// Styled Components
-
 const Wrapper = styled.section`
     padding-top: 20px;
     text-align: center;
@@ -26,8 +24,7 @@ const Wrapper = styled.section`
     grid-template-columns: 10fr 1fr 10fr;
 `
 
-// Proptypes
-
 SymmetricCountryChart.propTypes = {
-    countries: PropTypes.object
+    countries: PropTypes.object,
+    displayOptions: PropTypes.object
 }

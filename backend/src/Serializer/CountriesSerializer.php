@@ -17,7 +17,7 @@ class CountriesSerializer {
             'freedom' => $element->getFreedom(),
             'gender' => $element->getGender(),
             'lgbtq' => $element->getLgbtq(),
-            'environmant' => $element->getEnvironment(),
+            'environment' => $element->getEnvironment(),
             'corruption' => $element->getCorruption(),
             'inequality' => $element->getInequality(),
             'total' => $element->getTotal(),

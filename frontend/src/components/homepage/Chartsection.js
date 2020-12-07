@@ -3,8 +3,6 @@ import { scaleSequential} from 'd3-scale'
 import { interpolateRdYlGn } from 'd3-scale-chromatic'
 import PropTypes from 'prop-types'
 
-// Main export
-
 export default function Chartsection ({displayedCountries, entry, heading}) {
     return (<>
         <CategoryHeading>{heading}</CategoryHeading>
@@ -20,13 +18,9 @@ export default function Chartsection ({displayedCountries, entry, heading}) {
     </>)
 }
 
-// Color scale for interpolating bar colors
-
 const colorScale = scaleSequential()
     .domain([0,100])
     .interpolator(interpolateRdYlGn)
-
-// Styled components
 
 const CategoryHeading = styled.h3`
     grid-column: 1 / span 3;
@@ -49,7 +43,7 @@ const Bar = styled.div`
     background-color: ${props => colorScale(props.data)};
     height: 30px;
     width: ${props => String(props.data) + "%"};
-    justify-self: ${props => props.left ? 'end' : 'start'};
+    justify-self: ${props => props.left && 'end'};
 `
 
 const NoDataBar = styled.div`
@@ -63,10 +57,8 @@ const NoDataBar = styled.div`
     border-radius: ${props => props.left ? '5px 0 0 5px' : '0 5px 5px 0'};
     height: 30px;
     width: 50%;
-    justify-self: ${props => props.left ? 'end' : 'start'};
+    justify-self: ${props => props.left && 'end'};
 `
-
-// Proptypes for all components
 
 Chartsection.propTypes = {
     displayedCountries: PropTypes.object,

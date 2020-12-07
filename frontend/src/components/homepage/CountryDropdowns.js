@@ -2,8 +2,6 @@ import Select from 'react-select'
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 
-//Main export
-
 export default function CountryDropdowns ({countries, handleDisplayedCountries, displayedCountries}) {
 
     const dropdownOptions = countries.map(country => ({
@@ -24,7 +22,6 @@ export default function CountryDropdowns ({countries, handleDisplayedCountries, 
         </Wrapper>
     )
 
-    // ToDo: Refactor into one function
     function handlerLeft (e) {
         handleDisplayedCountries({
             ...displayedCountries,
@@ -41,8 +38,6 @@ export default function CountryDropdowns ({countries, handleDisplayedCountries, 
     
 }
 
-// Styling and styled components
-
 const Wrapper = styled.div`
     display: flex;
     padding: 10px 5px;
@@ -56,8 +51,6 @@ const styles = {
       flex: 1
     })
   };
-
-// Proptypes
 
 CountryDropdowns.propTypes = {
     displayedCountries: PropTypes.object,

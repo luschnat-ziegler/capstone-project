@@ -1,52 +1,50 @@
 import {useEffect, useReducer, useState} from 'react'
-import countriesReducer from './reducer/countriesReducer'
+import {Route, Switch} from 'react-router-dom'
+import loadingReducer from './reducer/loadingReducer'
+import getCountriesAndUser from './services/getCountriesAndUser'
+import calcUserScore from './services/calcUserScore'
 
+import Home from './components/homepage/Home'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import CountryDropdowns from './components/CountryDropdowns'
-import SymmetricCountryChart from './components/SymmetricCountryChart'
-import GlobalStyles from "./GlobalStyles";
+import GlobalStyles from "./styles/GlobalStyles"
+import UserPage from './components/userpage/UserPage'
 
 function App() {
 
-  const [countries, setCountries] = useReducer(
-    countriesReducer,
+  const [countries, dispatchCountries] = useReducer(
+    loadingReducer,
     {data: [], isLoading: false, isError: false}
   )
-  
-  const [displayedCountries, setDisplayedCountries] = useState({
-    countryLeft: {},
-    countryRight: {}
-  })
+
+  const [userLogInChange, setUserLogInChange] = useState("toggle")
   
   useEffect(() => {
-    setCountries({type: 'COUNTRIES_FETCH_INIT'})
-    fetch('http://countrycheck.local/countries')
-      .then(response => response.json())
-      .then(result => {
-          setCountries({
-          type: 'COUNTRIES_FETCH_SUCCESS',
-          payload: result
+    dispatchCountries({type: 'FETCH_INIT'})
+    getCountriesAndUser()      
+    .then(result => {
+          dispatchCountries({
+          type: 'FETCH_SUCCESS',
+          payload: calcUserScore(result)
           })
       })
-      .catch(() => setCountries({type: 'COUNTRIES_FETCH_FAILURE'}))
-  }, [])
+      .catch(error => dispatchCountries({type: 'FETCH_FAILURE'}))
+  }, [userLogInChange])
 
   return (
     <div className="App">
       <GlobalStyles/>
       <Header/>
-     {countries.isError && <p>An error occurred while fetching data</p>}
-     {countries.isLoading ?
-        (<p>Loading...</p>) : 
-        (<>
-        <CountryDropdowns 
-          handleDisplayedCountries = {setDisplayedCountries} 
-          displayedCountries = {displayedCountries}
-          countries = {countries.data}
-          />
-        <SymmetricCountryChart countries={displayedCountries}/>
-        </>)}
+      <main>
+        <Switch>
+          <Route exact path="/">
+            <Home data={countries}/>
+          </Route>
+          <Route path="/user" >
+            <UserPage handleStatusChange={setUserLogInChange} status={userLogInChange}/>
+          </Route>
+        </Switch>
+      </main>
       <Footer/>
     </div>
   );

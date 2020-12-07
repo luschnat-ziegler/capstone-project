@@ -1,7 +1,5 @@
 import styled from 'styled-components/macro'
 
-// Main export
-
 export default function Header() {
     return (
         <StyledHeader>
@@ -10,8 +8,6 @@ export default function Header() {
         </StyledHeader>
     )
 }
-
-//Styled Components
 
 const StyledHeader = styled.header`
     height: 10vh;
