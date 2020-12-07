@@ -7,12 +7,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+
 use App\Service\AuthenticationService;
 use App\Repository\CountriesRepository;
 use App\Entity\Countries;
 use App\Repository\CommentRepository;
 use App\Entity\Comment;
-use App\Serializer\CommentSerializer;
 
 class CommentController extends AbstractController
 {
@@ -20,7 +22,7 @@ class CommentController extends AbstractController
      * @Route("/comment", methods="GET")
      */
     public function index(
-        CommentSerializer $serializer, 
+        SerializerInterface $serializer, 
         Commentrepository $repository
         ): JsonResponse
     {   
@@ -29,7 +31,9 @@ class CommentController extends AbstractController
         ]); 
         
         return new JsonResponse(
-            $serializer->serialize($comments),
+            $serializer->serialize($comments, 'json', [
+                ObjectNormalizer::IGNORED_ATTRIBUTES => ['country', 'user']
+            ]),
             JsonResponse::HTTP_OK,
             [],
             true
@@ -41,7 +45,7 @@ class CommentController extends AbstractController
      */
 
     public function create(
-        CommentSerializer $serializer, 
+        SerializerInterface $serializer, 
         CommentRepository $repository, 
         CountriesRepository $countriesRepository, 
         Request $request, 
@@ -65,7 +69,9 @@ class CommentController extends AbstractController
         $comment = $repository->create($user, $country, $post);
 
         return new JsonResponse(
-            $serializer->serialize($comment, 'json'),
+            $serializer->serialize($comment, 'json', [
+                ObjectNormalizer::IGNORED_ATTRIBUTES => ['country', 'user']
+            ]),
             JsonResponse::HTTP_OK,
             [],
             true
