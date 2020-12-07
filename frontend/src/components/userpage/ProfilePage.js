@@ -109,5 +109,8 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
 ProfilePage.propTypes = {
     handleStatusChange: PropTypes.func,
     status: PropTypes.string,
-    userData: PropTypes.array
+    userData: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.object
+    ])
 }
