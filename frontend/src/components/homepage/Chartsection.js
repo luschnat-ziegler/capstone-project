@@ -4,6 +4,7 @@ import { interpolateRdYlGn } from 'd3-scale-chromatic'
 import PropTypes from 'prop-types'
 
 export default function Chartsection ({displayedCountries, entry, heading}) {
+        
     return (<>
         <CategoryHeading>{heading}</CategoryHeading>
         {displayedCountries.countryLeft.hasOwnProperty('country') && 

@@ -32,7 +32,7 @@ class UserController extends AbstractController
         $authData = $authentication->validateUser($request);
         
         if ($authData['success'] === false) {
-            return $this->json(["loggedIn" => false], JsonResponse::HTTP_OK);
+            return $this->json(["loggedIn" => false], JsonResponse::HTTP_UNAUTHORIZED);
         }
         
         return new JsonResponse(
