@@ -269,4 +269,16 @@ class User
 
         return $this;
     }
+
+    public function updateWeights($postArray): self {
+        
+        $this->setWeightEnvironment($postArray['weightEnvironment']);
+        $this->setWeightGender($postArray['weightGender']);
+        $this->setWeightLgbtq($postArray['weightLgbtq']);
+        $this->setWeightFreedom($postArray['weightFreedom']);
+        $this->setWeightEquality($postArray['weightEquality']);
+        $this->setWeightCorruption($postArray['weightCorruption']);
+    
+    return $this;
+    }
 }

@@ -7,12 +7,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Repository\TokenRepository;
-use App\Entity\Token;
-use App\Serializer\UserSerializer;
 use App\Service\AuthenticationService;
 
 class UserController extends AbstractController
@@ -22,7 +20,7 @@ class UserController extends AbstractController
      */
 
     public function index(
-        UserSerializer $serializer,
+        SerializerInterface $serializer,
         UserRepository $repository,
         TokenRepository $tokenRepository,
         Request $request,
@@ -36,7 +34,10 @@ class UserController extends AbstractController
         }
         
         return new JsonResponse(
-            $serializer->serialize($authData["user"], 'json'),
+            $serializer->serialize($authData["user"], 'json',
+                [
+                    ObjectNormalizer::IGNORED_ATTRIBUTES => ['password', 'comments', 'tokens']
+                ]),
             JsonResponse::HTTP_OK,
             [],
             true
@@ -62,12 +63,7 @@ class UserController extends AbstractController
 
         $repository->save($user);
 
-        return new JsonResponse(
-            $serializer->serialize($user, 'json'),
-            JsonResponse::HTTP_OK,
-            [],
-            true
-        );
+        return $this->json(["userRegistration"=>true], JsonResponse::HTTP_OK);
     }
 
     /**
@@ -75,7 +71,6 @@ class UserController extends AbstractController
      */
 
     public function update(
-        UserSerializer $serializer,
         Request $request,
         AuthenticationService $authentication,
         TokenRepository $tokenRepository,
@@ -90,22 +85,9 @@ class UserController extends AbstractController
         
         $user = $authData["user"];
         $post = json_decode($request->getContent(), true);
-
-        //ToDo: Implement as method in user entity
-        $user->setWeightEnvironment($post['weightEnvironment']);
-        $user->setWeightGender($post['weightGender']);
-        $user->setWeightLgbtq($post['weightLgbtq']);
-        $user->setWeightFreedom($post['weightFreedom']);
-        $user->setWeightEquality($post['weightEquality']);
-        $user->setWeightCorruption($post['weightCorruption']);
-
+        $user->updateWeights($post);
         $repository->save($user);
 
-        return new JsonResponse(
-            $serializer->serialize($user, 'json'),
-            JsonResponse::HTTP_OK,
-            [],
-            true
-        );
+        return $this->json(["success" => true], JsonResponse::HTTP_OK);
     }
 }
