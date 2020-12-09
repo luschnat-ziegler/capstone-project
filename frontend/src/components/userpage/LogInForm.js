@@ -17,9 +17,12 @@ export default function LogInForm({handleStatusChange, status}) {
         password: ''
     })
 
-    const [failure, setFailure] = useState()
+    const [isFailure, setIsFailure] = useState(false)
+    const [isPosting, setIsPosting] = useState(false)
 
-    return (<>
+    return (
+        <>
+        {isPosting ? <p>Loading. Please wait...</p> : <>
         <SubHeading>Log in</SubHeading>
         <GridForm onSubmit={submitForm}>
                 <label htmlFor="email"><strong>E-mail</strong></label>
@@ -28,8 +31,8 @@ export default function LogInForm({handleStatusChange, status}) {
                 <input type="text" name="password" onChange={handleChange} value={logInData.password}></input>
                 <SubmitButton>Log In</SubmitButton>
             </GridForm>
-            {failure && <FailureNotification>Please try again</FailureNotification>}
-    </>)
+            {isFailure && <FailureNotification>Please try again</FailureNotification>}</>}
+        </>)
 
     function handleChange(event) {
         const fieldValue = event.target.value
@@ -40,20 +43,24 @@ export default function LogInForm({handleStatusChange, status}) {
     }
 
     function submitForm(event) {
+        setIsPosting(true)
         event.preventDefault()
         if(validateEmail(logInData.email)) {
         logInUser(logInData)
         .then(data => {
             if (data.success === false) {
-                setFailure(true)
+                setIsFailure(true)
+                setIsPosting(false)
             } else {
                 saveToken(data.value)
-                setFailure(false)
+                setIsFailure(false)
+                setIsPosting(false)
                 handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
             }
         })
         } else {
-            setFailure(true)
+            setIsPosting(false)
+            setIsFailure(true)
         }
     }
 }

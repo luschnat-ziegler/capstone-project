@@ -13,22 +13,25 @@ export default function RegisterForm ({setRegistrationOption}) {
         firstName: ''
     })
 
-    const [failure, setFailure] = useState()
+    const [isFailure, setIsFailure] = useState(false)
+    const [isPosting, setIsPosting] = useState(false)
 
     return (<>
+        {isPosting ? <p>Loading. Please wait...</p> : <>
         <SubHeading>Register new account:</SubHeading>
         <GridForm onSubmit={submitForm}>
-                <label htmlFor="firstName"><strong>First Name</strong></label>
-                <input type="text" name="firstName" onChange={handleChange} value={registrationData.firstName}></input>
-                <label htmlFor="lastName"><strong>Last Name</strong></label>
-                <input type="text" name="lastName" onChange={handleChange} value={registrationData.lastName}></input>
-                <label htmlFor="email"><strong>E-Mail</strong></label>
-                <input type="text" name="email" onChange={handleChange} value={registrationData.email}></input>
-                <label htmlFor="password"><strong>Password</strong></label>
-                <input type="text" name="password" onChange={handleChange} value={registrationData.password}></input>
-                <SubmitButton>Submit</SubmitButton>
-            </GridForm>
-            {failure && <FailureNotification>Please try again</FailureNotification>}
+            <label htmlFor="firstName"><strong>First Name</strong></label>
+            <input type="text" name="firstName" onChange={handleChange} value={registrationData.firstName}></input>
+            <label htmlFor="lastName"><strong>Last Name</strong></label>
+            <input type="text" name="lastName" onChange={handleChange} value={registrationData.lastName}></input>
+            <label htmlFor="email"><strong>E-Mail</strong></label>
+            <input type="text" name="email" onChange={handleChange} value={registrationData.email}></input>
+            <label htmlFor="password"><strong>Password</strong></label>
+            <input type="text" name="password" onChange={handleChange} value={registrationData.password}></input>
+            <SubmitButton>Submit</SubmitButton>
+        </GridForm>
+        {isFailure && <FailureNotification>Please try again</FailureNotification>}
+        </>}
     </>)
 
     function handleChange(event) {
@@ -40,19 +43,23 @@ export default function RegisterForm ({setRegistrationOption}) {
     }
 
     function submitForm(event) {
+        setIsPosting(true)
         event.preventDefault()
         if (validateRegistration(registrationData)) {
             createUser(registrationData)
             .then((data) => {
                 if(data.userRegistration === false) {
-                    setFailure(true)
+                    setIsFailure(true)
+                    setIsPosting(false)
                 } else {
-                    setFailure(false)
+                    setIsFailure(false)
+                    setIsPosting(false)
                     setRegistrationOption(false)
                 }
             })
         } else {
-            setFailure(true)
+            setIsFailure(true)
+            setIsPosting(false)
         }
     }
 }

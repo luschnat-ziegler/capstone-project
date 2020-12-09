@@ -95,6 +95,7 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
                 handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
             } else {
                 alert("Update complete")
+                handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
             }
         })
         .catch(error => console.log(error))

@@ -23,6 +23,7 @@ function App() {
     dispatchCountries({type: 'FETCH_INIT'})
     getCountriesAndUser()      
     .then(result => {
+          console.log(result)
           dispatchCountries({
           type: 'FETCH_SUCCESS',
           payload: calcUserScore(result)
