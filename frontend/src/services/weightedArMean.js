@@ -9,11 +9,11 @@ export default function weightedArMean(country, user) {
         [country.corruption, user.weightCorruption]
     ]
 
-    const [sum, divisor] = scoreWeightArray.reduce((acc, cur) => {
-        if(cur[0] === null) {
-            return acc
+    const [sum, divisor] = scoreWeightArray.reduce((accumulator, current) => {
+        if(current[0] === null) {
+            return accumulator
         } else {
-            return [acc[0]+(cur[0]*cur[1]), acc[1]+cur[1]]
+            return [accumulator[0]+(current[0]*current[1]), accumulator[1]+current[1]]
         }
     },[0,0])
 

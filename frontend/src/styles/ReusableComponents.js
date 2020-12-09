@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
 `
 
 export const ContentContainer = styled.div`
-    border: 1px solid black;
+    box-shadow: 0px 0px 20px rgba(0,0,0,.2);
     border-radius: 5px;
     padding: 1em;
     margin-bottom: 10px;
@@ -16,38 +16,48 @@ export const Heading = styled.h2`
     text-align: center;
     font-size: 1.3em;
     padding: 5px;
+    color: #404040;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
 ` 
 
 export const SubHeading = styled.h3`
     font-size: 1.1em;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 10px;
+    text-align: center;
+    color: #404040;
 `
 
-export const GridForm = styled.form`
-    display: grid;
-    gap: 5px;
-    grid-template-columns: 1fr 2fr;
+export const FlexForm = styled.form`
+    display: flex;
+    flex-direction: column;
     margin-top: 20px;
+    align-items: center;
+    padding: 10px;
+`
+
+export const FormInput = styled.input`
+    margin-top: 10px;
+    width: 90%;
+    height: 4vh;
 `
 
 export const SubmitButton = styled.button`
+    border: none;
+    box-shadow: 0px 0px 20px rgba(0,0,0,.2);
     width: 100px;
     height: 30px;
-    border: 1px solid grey;
     border-radius: 5px;
     text-decoration: none;
     text-align: center;
-    color: black;
-    background-color: orange;
+    color: white;
+    background-color: #3facc4;
     padding: 4px;
-    grid-column: 1 / span 2;
-    justify-self: center;
     margin-top: 20px;
 `
 
 export const FailureNotification = styled.p`
     text-align: center;
-    color: red;
+    color: orange;
     margin-top: 10px;
 `

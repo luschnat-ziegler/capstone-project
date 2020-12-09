@@ -1,5 +1,10 @@
 import { useState } from 'react'
-import { SubHeading, GridForm, SubmitButton, FailureNotification } from '../../styles/ReusableComponents'
+import { 
+    FlexForm,
+    SubmitButton, 
+    FailureNotification,
+    FormInput
+} from '../../styles/ReusableComponents'
 import { validateRegistration } from '../../services/validations'
 import { createUser } from '../../services/createUser'
 import PropTypes from 'prop-types'
@@ -18,18 +23,37 @@ export default function RegisterForm ({setRegistrationOption}) {
 
     return (<>
         {isPosting ? <p>Loading. Please wait...</p> : <>
-        <SubHeading>Register new account:</SubHeading>
-        <GridForm onSubmit={submitForm}>
-            <label htmlFor="firstName"><strong>First Name</strong></label>
-            <input type="text" name="firstName" onChange={handleChange} value={registrationData.firstName}></input>
-            <label htmlFor="lastName"><strong>Last Name</strong></label>
-            <input type="text" name="lastName" onChange={handleChange} value={registrationData.lastName}></input>
-            <label htmlFor="email"><strong>E-Mail</strong></label>
-            <input type="text" name="email" onChange={handleChange} value={registrationData.email}></input>
-            <label htmlFor="password"><strong>Password</strong></label>
-            <input type="text" name="password" onChange={handleChange} value={registrationData.password}></input>
-            <SubmitButton>Submit</SubmitButton>
-        </GridForm>
+        <FlexForm onSubmit={submitForm}>
+            <FormInput 
+                type="text" 
+                name="firstName" 
+                onChange={handleChange} 
+                value={registrationData.firstName}
+                placeholder={"First Name"}
+            />
+            <FormInput 
+                type="text" 
+                name="lastName" 
+                onChange={handleChange} 
+                value={registrationData.lastName}
+                placeholder={"Last Name"}
+            />
+            <FormInput 
+                type="text" 
+                name="email" 
+                onChange={handleChange} 
+                value={registrationData.email}
+                placeholder={"E-Mail"}
+            />
+            <FormInput 
+                type="password" 
+                name="password" 
+                onChange={handleChange} 
+                value={registrationData.password}
+                placeholder="Password"
+            />
+            <SubmitButton>Register</SubmitButton>
+        </FlexForm>
         {isFailure && <FailureNotification>Please try again</FailureNotification>}
         </>}
     </>)

@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import {
-    SubHeading, 
-    GridForm, 
+    FormInput, 
+    FlexForm,
     SubmitButton,
     FailureNotification
 } from '../../styles/ReusableComponents'
@@ -23,14 +23,23 @@ export default function LogInForm({handleStatusChange, status}) {
     return (
         <>
         {isPosting ? <p>Loading. Please wait...</p> : <>
-        <SubHeading>Log in</SubHeading>
-        <GridForm onSubmit={submitForm}>
-                <label htmlFor="email"><strong>E-mail</strong></label>
-                <input type="text" name="email" onChange={handleChange} value={logInData.email}></input>
-                <label htmlFor="password"><strong>Password</strong></label>
-                <input type="text" name="password" onChange={handleChange} value={logInData.password}></input>
+        <FlexForm onSubmit={submitForm}>
+                <FormInput 
+                    type="text" 
+                    name="email" 
+                    onChange={handleChange} 
+                    value={logInData.email}
+                    placeholder={"E-Mail"}
+                />
+                <FormInput 
+                    type="password" 
+                    name="password" 
+                    onChange={handleChange} 
+                    value={logInData.password}
+                    placeholder={"Password"}
+                />
                 <SubmitButton>Log In</SubmitButton>
-            </GridForm>
+            </FlexForm>
             {isFailure && <FailureNotification>Please try again</FailureNotification>}</>}
         </>)
 

@@ -1,4 +1,4 @@
-import { loadToken}  from './tokenStorage'
+import { loadToken } from './tokenStorage'
 
 export default function updateUser(data) {
 return fetch('http://countrycheck.local/user_update', {

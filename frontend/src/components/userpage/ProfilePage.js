@@ -5,9 +5,11 @@ import {
     Wrapper, 
     ContentContainer, 
     Heading, 
-    SubHeading 
+    SubHeading,
+    SubmitButton
 } from '../../styles/ReusableComponents'
 import PropTypes from 'prop-types'
+import styled from 'styled-components/macro'
 
 import { deleteToken } from '../../services/tokenStorage'
 import updateUser from '../../services/userUpdate'
@@ -25,59 +27,64 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
 
     return  (
         <Wrapper>
-            <Heading>Profile Page</Heading>
+            <HorizontalFlexContainer>
+                <Heading>Your Profile</Heading>
+                <LogOutButton onClick={logOut}>Log me out!</LogOutButton>
+            </HorizontalFlexContainer>
             <ContentContainer>
-                <SubHeading>You are logged in as:</SubHeading>
-                <p>Name: {userData.firstName} {userData.lastName}</p>
-                <p>E-Mail: {userData.email}</p>
+                <HorizontalFlexContainer>
+                    <p>{userData.firstName} {userData.lastName}</p>
+                    <p>{userData.email}</p>
+                </HorizontalFlexContainer>
             </ContentContainer>
             <ContentContainer>
-                <SubHeading>Your settings:</SubHeading>
-                <p>Environment and Climate</p>
-                <Slider 
-                    min={0} 
-                    max={4} 
-                    defaultValue={userData.weightEnvironment === null ? 2 : userData.weightEnvironment}
-                    onChange={(event) => onSliderChange(event, "weightEnvironment")}
-                />
-                <p>Gender Equality</p>
-                <Slider 
-                    min={0} 
-                    max={4} 
-                    defaultValue={userData.weightGender === null ? 2 : userData.weightGender}
-                    onChange={(event) => onSliderChange(event, "weightGender")}
+                <SliderFlexContainer>
+                    <SubHeading>Slide to adjust your priority settings:</SubHeading>
+                    <BarLegend>Environment and Climate</BarLegend>
+                    <Slider 
+                        min={0} 
+                        max={4} 
+                        defaultValue={userData.weightEnvironment === null ? 2 : userData.weightEnvironment}
+                        onChange={(event) => onSliderChange(event, "weightEnvironment")}
                     />
-                <p>LGBTQ-Acceptance</p>
-                <Slider 
-                    min={0} 
-                    max={4} 
-                    defaultValue={userData.weightLgbtq === null ? 2 : userData.weightLgbtq}
-                    onChange={(event) => onSliderChange(event, "weightLgbtq")}
+                    <BarLegend>Gender Equality</BarLegend>
+                    <Slider 
+                        min={0} 
+                        max={4} 
+                        defaultValue={userData.weightGender === null ? 2 : userData.weightGender}
+                        onChange={(event) => onSliderChange(event, "weightGender")}
+                        />
+                    <BarLegend>LGBTQ-Acceptance</BarLegend>
+                    <Slider 
+                        min={0} 
+                        max={4} 
+                        defaultValue={userData.weightLgbtq === null ? 2 : userData.weightLgbtq}
+                        onChange={(event) => onSliderChange(event, "weightLgbtq")}
+                        />
+                    <BarLegend>Freedom and Democracy</BarLegend>
+                    <Slider 
+                        min={0} 
+                        max={4} 
+                        defaultValue={userData.weightFreedom === null ? 2 : userData.weightFreedom}
+                        onChange={(event) => onSliderChange(event, "weightFreedom")}    
                     />
-                <p>Freedom and Democracy</p>
-                <Slider 
-                    min={0} 
-                    max={4} 
-                    defaultValue={userData.weightFreedom === null ? 2 : userData.weightFreedom}
-                    onChange={(event) => onSliderChange(event, "weightFreedom")}    
-                />
-                <p>Corruption Control</p>
-                <Slider 
-                    min={0} 
-                    max={4} 
-                    defaultValue={userData.weightCorruption === null ? 2 : userData.weightCorruption}
-                    onChange={(event) => onSliderChange(event, "weightCorruption")}
-                    />
-                <p>Income Equality</p>
-                <Slider 
-                    min={0} 
-                    max={4} 
-                    defaultValue={userData.weightEquality === null ? 2 : userData.weightEquality}
-                    onChange={(event) => onSliderChange(event, "weightEquality")}
-                    />
-                <button onClick={submitPrefs}>Submit!</button>
+                    <BarLegend>Corruption Control</BarLegend>
+                    <Slider 
+                        min={0} 
+                        max={4} 
+                        defaultValue={userData.weightCorruption === null ? 2 : userData.weightCorruption}
+                        onChange={(event) => onSliderChange(event, "weightCorruption")}
+                        />
+                    <BarLegend>Income Equality</BarLegend>
+                    <Slider 
+                        min={0} 
+                        max={4} 
+                        defaultValue={userData.weightEquality === null ? 2 : userData.weightEquality}
+                        onChange={(event) => onSliderChange(event, "weightEquality")}
+                        />
+                    <SubmitButton onClick={submitPrefs}>Submit!</SubmitButton>
+                </SliderFlexContainer>
             </ContentContainer>
-            <button onClick={logOut}>Log me out!</button>
         </Wrapper>
     )
 
@@ -106,6 +113,37 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
         handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
     }
 }
+
+const HorizontalFlexContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+`
+
+const SliderFlexContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+const BarLegend = styled.p`
+    color: #606060;
+    padding-top: 15px;
+    padding-bottom: 5px;
+`
+
+const LogOutButton = styled.button`
+    border: none;
+    box-shadow: 0px 0px 20px rgba(0,0,0,.2);
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    background-color: grey;
+    padding: 4px;
+`
 
 ProfilePage.propTypes = {
     handleStatusChange: PropTypes.func,

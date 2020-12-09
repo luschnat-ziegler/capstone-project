@@ -7,7 +7,7 @@ import calcUserScore from './services/calcUserScore'
 import Home from './components/homepage/Home'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import GlobalStyles from "./styles/GlobalStyles"
+import GlobalStyles from './styles/GlobalStyles'
 import UserPage from './components/userpage/UserPage'
 
 function App() {

@@ -26,6 +26,7 @@ const colorScale = scaleSequential()
 const CategoryHeading = styled.h3`
     grid-column: 1 / span 3;
     padding: 10px;
+    color: #404040;
 `
 
 const Divider = styled.div`
