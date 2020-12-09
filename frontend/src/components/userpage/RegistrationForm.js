@@ -18,17 +18,17 @@ export default function RegisterForm ({setRegistrationOption}) {
     return (<>
         <SubHeading>Register new account:</SubHeading>
         <GridForm onSubmit={submitForm}>
-                <label htmlFor="firstName"><strong>First Name</strong></label>
-                <input type="text" name="firstName" onChange={handleChange} value={registrationData.firstName}></input>
-                <label htmlFor="lastName"><strong>Last Name</strong></label>
-                <input type="text" name="lastName" onChange={handleChange} value={registrationData.lastName}></input>
-                <label htmlFor="email"><strong>E-Mail</strong></label>
-                <input type="text" name="email" onChange={handleChange} value={registrationData.email}></input>
-                <label htmlFor="password"><strong>Password</strong></label>
-                <input type="text" name="password" onChange={handleChange} value={registrationData.password}></input>
-                <SubmitButton>Submit</SubmitButton>
-            </GridForm>
-            {failure && <FailureNotification>Please try again</FailureNotification>}
+            <label htmlFor="firstName"><strong>First Name</strong></label>
+            <input type="text" name="firstName" onChange={handleChange} value={registrationData.firstName}></input>
+            <label htmlFor="lastName"><strong>Last Name</strong></label>
+            <input type="text" name="lastName" onChange={handleChange} value={registrationData.lastName}></input>
+            <label htmlFor="email"><strong>E-Mail</strong></label>
+            <input type="text" name="email" onChange={handleChange} value={registrationData.email}></input>
+            <label htmlFor="password"><strong>Password</strong></label>
+            <input type="text" name="password" onChange={handleChange} value={registrationData.password}></input>
+            <SubmitButton>Submit</SubmitButton>
+        </GridForm>
+        {failure && <FailureNotification>Please try again</FailureNotification>}
     </>)
 
     function handleChange(event) {

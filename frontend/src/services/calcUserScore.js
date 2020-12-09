@@ -1,12 +1,13 @@
 import weightedArMean from './weightedArMean'
 
 export default function calcUserScore (resultArray) {
+    let workingArray = [...resultArray]
     if (!resultArray[1].hasOwnProperty('id')) {
-        resultArray.push({user: false, custom: false})
-        return resultArray
+        workingArray.push({user: false, custom: false})
+        return workingArray
     } else if (checkEquality(resultArray[1])) {
-        resultArray.push({user: true, custom: false})
-        return resultArray
+        workingArray.push({user: true, custom: false})
+        return workingArray
     } else {
         const customResultArray = resultArray[0].map((country) => {
             const newCountry = country

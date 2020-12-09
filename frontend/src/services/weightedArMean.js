@@ -9,7 +9,7 @@ export default function weightedArMean(country, user) {
         [country.corruption, user.weightCorruption]
     ]
 
-    const [sum, div] = scoreWeightArray.reduce((acc, cur) => {
+    const [sum, divisor] = scoreWeightArray.reduce((acc, cur) => {
         if(cur[0] === null) {
             return acc
         } else {
@@ -17,5 +17,5 @@ export default function weightedArMean(country, user) {
         }
     },[0,0])
 
-    return div !== 0 ? Math.round(sum/div) : null
+    return divisor !== 0 ? Math.round(sum/divisor) : null
 }

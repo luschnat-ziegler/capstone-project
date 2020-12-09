@@ -8,5 +8,8 @@ export const validateEmail = (email) => email.includes('@') && hasValidDomain(em
 const validateText = (text) => text.length > 1
 
 export const validateRegistration = ({firstName, lastName, email, password}) => {
-    return validateEmail(email) && validateText(lastName) && validateText(firstName) && validateText(password)
+    return validateEmail(email) 
+        && validateText(lastName) 
+        && validateText(firstName) 
+        && validateText(password)
 }
