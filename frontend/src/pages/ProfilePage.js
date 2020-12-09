@@ -7,12 +7,12 @@ import {
     Heading, 
     SubHeading,
     SubmitButton
-} from '../../styles/ReusableComponents'
+} from '../styles/ReusableComponents'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 
-import { deleteToken } from '../../services/tokenStorage'
-import updateUser from '../../services/userUpdate'
+import { deleteToken } from '../services/tokenStorage'
+import updateUser from '../services/userUpdate'
 
 export default function ProfilePage({userData, handleStatusChange, status}) {
 

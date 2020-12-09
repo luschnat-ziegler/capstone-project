@@ -1,9 +1,9 @@
 import {useState} from 'react'
-import CountryDropdowns from './CountryDropdowns'
-import SymmetricCountryChart from './SymmetricCountryChart'
+import CountryDropdowns from '../components/homepage/CountryDropdowns'
+import SymmetricCountryChart from '../components/homepage/SymmetricCountryChart'
 import PropTypes from 'prop-types'
 
-export default function Home ({data}) {
+export default function Home ({countries}) {
 
     const [displayedCountries, setDisplayedCountries] = useState({
         countryLeft: {},
@@ -11,18 +11,18 @@ export default function Home ({data}) {
       })
 
       return (<>
-      {data.isError && <p>An error occurred while fetching data</p>}
-      {data.isLoading ?
+      {countries.isError && <p>An error occurred while fetching data</p>}
+      {countries.isLoading ?
          (<p>Loading...</p>) : 
          (<>
          <CountryDropdowns 
            handleDisplayedCountries = {setDisplayedCountries} 
            displayedCountries = {displayedCountries}
-           countries = {data.data.length === 0 ? data.data : data.data[0]}
+           countries = {countries.data.length === 0 ? countries.data : countries.data[0]}
            />
          <SymmetricCountryChart 
           countries={displayedCountries}
-          displayOptions={data.data.length === 0 ? {user: false, custom: false} : data.data[2]} 
+          displayOptions={countries.data.length === 0 ? {user: false, custom: false} : countries.data[2]} 
           />
          </>)}
          </>

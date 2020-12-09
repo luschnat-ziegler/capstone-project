@@ -4,15 +4,15 @@ import loadingReducer from './reducer/loadingReducer'
 import getCountriesAndUser from './services/getCountriesAndUser'
 import calcUserScore from './services/calcUserScore'
 
-import Home from './components/homepage/Home'
+import Home from './pages/Home'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import GlobalStyles from './styles/GlobalStyles'
-import UserPage from './components/userpage/UserPage'
+import UserPage from './pages/UserPage'
 
 function App() {
 
-  const [countries, dispatchCountries] = useReducer(
+  const [countriesAndUser, dispatchCountriesAndUser] = useReducer(
     loadingReducer,
     {data: [], isLoading: false, isError: false}
   )
@@ -20,25 +20,25 @@ function App() {
   const [userLogInChange, setUserLogInChange] = useState("toggle")
   
   useEffect(() => {
-    dispatchCountries({type: 'FETCH_INIT'})
+    dispatchCountriesAndUser({type: 'FETCH_INIT'})
     getCountriesAndUser()      
     .then(result => {
-          dispatchCountries({
+          dispatchCountriesAndUser({
           type: 'FETCH_SUCCESS',
           payload: calcUserScore(result)
           })
       })
-      .catch(error => dispatchCountries({type: 'FETCH_FAILURE'}))
+      .catch(error => dispatchCountriesAndUser({type: 'FETCH_FAILURE'}))
   }, [userLogInChange])
 
   return (
-    <div className="App">
+    <div>
       <GlobalStyles/>
       <Header/>
       <main>
         <Switch>
           <Route exact path="/">
-            <Home data={countries}/>
+            <Home countries={countriesAndUser}/>
           </Route>
           <Route path="/user" >
             <UserPage handleStatusChange={setUserLogInChange} status={userLogInChange}/>

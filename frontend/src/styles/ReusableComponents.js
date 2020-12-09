@@ -1,18 +1,18 @@
 import styled from 'styled-components/macro'
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
     margin: 10px;
     width: 355px;
 `
 
-export const ContentContainer = styled.div`
+const ContentContainer = styled.div`
     box-shadow: 0px 0px 20px rgba(0,0,0,.2);
     border-radius: 5px;
     padding: 1em;
     margin-bottom: 10px;
 `
 
-export const Heading = styled.h2`
+const Heading = styled.h2`
     text-align: center;
     font-size: 1.3em;
     padding: 5px;
@@ -21,14 +21,14 @@ export const Heading = styled.h2`
     margin-bottom: 1.5em;
 ` 
 
-export const SubHeading = styled.h3`
+const SubHeading = styled.h3`
     font-size: 1.1em;
     padding-top: 10px;
     text-align: center;
     color: #404040;
 `
 
-export const FlexForm = styled.form`
+const FlexForm = styled.form`
     display: flex;
     flex-direction: column;
     margin-top: 20px;
@@ -36,13 +36,13 @@ export const FlexForm = styled.form`
     padding: 10px;
 `
 
-export const FormInput = styled.input`
+const FormInput = styled.input`
     margin-top: 10px;
     width: 90%;
     height: 4vh;
 `
 
-export const SubmitButton = styled.button`
+const SubmitButton = styled.button`
     border: none;
     box-shadow: 0px 0px 20px rgba(0,0,0,.2);
     width: 100px;
@@ -56,8 +56,19 @@ export const SubmitButton = styled.button`
     margin-top: 20px;
 `
 
-export const FailureNotification = styled.p`
+const FailureNotification = styled.p`
     text-align: center;
     color: orange;
     margin-top: 10px;
 `
+
+export {
+    Wrapper, 
+    ContentContainer, 
+    Heading, 
+    SubHeading, 
+    FlexForm, 
+    FormInput, 
+    SubmitButton, 
+    FailureNotification
+}

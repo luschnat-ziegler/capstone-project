@@ -1,31 +1,31 @@
 import weightedArMean from './weightedArMean'
 
-export default function calcUserScore (resultArray) {
-    let workingArray = [...resultArray]
-    if (!resultArray[1].hasOwnProperty('id')) {
-        workingArray.push({user: false, custom: false})
-        return workingArray
-    } else if (checkEquality(resultArray[1])) {
-        workingArray.push({user: true, custom: false})
-        return workingArray
+export default function calcUserScore (inputData) {
+    let workingData = [...inputData]
+    if (!inputData[1].hasOwnProperty('id')) {
+        workingData.push({user: false, custom: false})
+        return workingData
+    } else if (checkEquality(inputData[1])) {
+        workingData.push({user: true, custom: false})
+        return workingData
     } else {
-        const customResultArray = resultArray[0].map((country) => {
+        const customResultArray = inputData[0].map((country) => {
             const newCountry = country
-            newCountry.userScore = weightedArMean(country, resultArray[1])
+            newCountry.userScore = weightedArMean(country, inputData[1])
             return newCountry
         })
-        return [customResultArray, resultArray[1], {user: true, custom: true}]
+        return [customResultArray, inputData[1], {user: true, custom: true}]
     }
 }
 
-function checkEquality(userObj) {
+function checkEquality(user) {
     const compSet = new Set([
-        userObj.weightEnvironment, 
-        userObj.weightEquality, 
-        userObj.weightFreedom, 
-        userObj.weightGender, 
-        userObj.weightLgbtq,
-        userObj.weightCorruption
+        user.weightEnvironment, 
+        user.weightEquality, 
+        user.weightFreedom, 
+        user.weightGender, 
+        user.weightLgbtq,
+        user.weightCorruption
     ])
     return (compSet.size === 1)
 }

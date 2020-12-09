@@ -1,6 +1,6 @@
 import {useReducer, useEffect} from 'react'
-import loadingReducer from '../../reducer/loadingReducer'
-import getUser from '../../services/getUser'
+import loadingReducer from '../reducer/loadingReducer'
+import getUser from '../services/getUser'
 import ProfilePage from './ProfilePage'
 import NotLoggedInPage from './NotLoggedInPage'
 import PropTypes from 'prop-types'
