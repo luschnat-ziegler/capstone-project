@@ -34,10 +34,12 @@ class UserController extends AbstractController
             return $this->json(["loggedIn" => false], JsonResponse::HTTP_UNAUTHORIZED);
         }
         
+        $ignoredAttributes = ['password', 'comments', 'tokens', 'roles', 'salt', 'username'];
+
         return new JsonResponse(
             $serializer->serialize($authData["user"], 'json',
                 [
-                    ObjectNormalizer::IGNORED_ATTRIBUTES => ['password', 'comments', 'tokens']
+                    ObjectNormalizer::IGNORED_ATTRIBUTES => $ignoredAttributes
                 ]),
             JsonResponse::HTTP_OK,
             [],
@@ -52,7 +54,8 @@ class UserController extends AbstractController
     public function register(
         Request $request,
         SerializerInterface $serializer,
-        UserRepository $repository
+        UserRepository $repository,
+        PasswordEncoder $passwordEncoder
     ): JsonResponse
     {
         /** @var User $newUser */
