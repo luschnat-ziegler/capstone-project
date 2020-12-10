@@ -1,26 +1,28 @@
+import { postInit, postSuccess, postFailure } from '../actions/postingActions'
+
 const postingReducer = (state, action) => {
-    switch (action.type) {
-      case 'POST_INIT':
-        return{
-          ...state,
-          isPosting: true,
-          isError: false
-        }
-      case 'POST_SUCCESS':
-        return{
-          ...state,
-          isPosting: false,
-          isError: false,
-        }
-      case 'POST_FAILURE':
-        return{
-          ...state,
-          isPosting: false,
-          isError: true
-        }
-      default:
-        throw new Error()
-    }
+  switch (action.type) {
+    case postInit:
+      return {
+        ...state,
+        isPosting: true,
+        isError: false,
+      }
+    case postSuccess:
+      return {
+        ...state,
+        isPosting: false,
+        isError: false,
+      }
+    case postFailure:
+      return {
+        ...state,
+        isPosting: false,
+        isError: true,
+      }
+    default:
+      throw new Error()
   }
+}
 
 export default postingReducer
