@@ -13,6 +13,8 @@ import {
 } from '../styles/ReusableComponents'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
+import Loader from 'react-loader-spinner'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 import { deleteToken } from '../services/tokenStorage'
 import updateUser from '../services/updateUser'
@@ -48,7 +50,9 @@ export default function ProfilePage({ userData, handleStatusChange, status }) {
       </ContentContainer>
       <ContentContainer>
         {updateStatus.isPosting ? (
-          <p>Please wait...</p>
+          <LoaderContainerProfile>
+            <Loader type="ThreeDots" color="grey" height={100} width={100} timeout={3000} />
+          </LoaderContainerProfile>
         ) : (
           <SliderFlexContainer>
             <SubHeading>Slide to adjust your priority settings:</SubHeading>
@@ -166,6 +170,14 @@ const LogOutButton = styled.button`
   color: white;
   background-color: grey;
   padding: 4px;
+`
+
+const LoaderContainerProfile = styled.div`
+  padding-top: 20vh;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
 `
 
 ProfilePage.propTypes = {

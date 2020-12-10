@@ -1,4 +1,5 @@
 import { useReducer } from 'react'
+import styled from 'styled-components/macro'
 import useForm from '../../hooks/useForm'
 import postingReducer from '../../reducer/postingReducer'
 import { postInit, postSuccess, postFailure } from '../../actions/postingActions'
@@ -12,6 +13,8 @@ import { validateEmail } from '../../services/validations'
 import logInUser from '../../services/logInUser'
 import { saveToken } from '../../services/tokenStorage'
 import PropTypes from 'prop-types'
+import Loader from 'react-loader-spinner'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 export default function LoginForm({ handleStatusChange, status }) {
   const [loginStatus, dispatchLoginStatus] = useReducer(postingReducer, {
@@ -27,7 +30,9 @@ export default function LoginForm({ handleStatusChange, status }) {
   return (
     <>
       {loginStatus.isPosting ? (
-        <p>Loading. Please wait...</p>
+        <LoaderContainerLogin>
+          <Loader type="ThreeDots" color="grey" height={100} width={100} timeout={3000} />
+        </LoaderContainerLogin>
       ) : (
         <>
           <FlexForm onSubmit={handleSubmit}>
@@ -75,3 +80,11 @@ LoginForm.propTypes = {
   handleStatusChange: PropTypes.func,
   status: PropTypes.string,
 }
+
+const LoaderContainerLogin = styled.div`
+  padding-top: 4vh;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+`
