@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Repository\TokenRepository;
 use App\Service\AuthenticationService;
+use App\Service\PasswordEncoder;
 
 class UserController extends AbstractController
 {
@@ -54,15 +55,17 @@ class UserController extends AbstractController
         UserRepository $repository
     ): JsonResponse
     {
-        /** @var User $user */
-        $user = $serializer->deserialize($request->getContent(), User::class, 'json');
+        /** @var User $newUser */
+        $newUser = $serializer->deserialize($request->getContent(), User::class, 'json');
         
-        $emailInUse = $repository->findBy(['email' => $user->getEmail()]);
+        $emailInUse = $repository->findBy(['email' => $newUser->getEmail()]);
         if(sizeof($emailInUse) > 0) {
             return $this->json(["userRegistration"=>false], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $repository->save($user);
+        $passwordEncoder->encode($newUser->getPassword(), $newUser);
+
+        $repository->save($newUser);
 
         return $this->json(["userRegistration"=>true], JsonResponse::HTTP_OK);
     }
