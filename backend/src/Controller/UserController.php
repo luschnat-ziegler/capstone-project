@@ -54,6 +54,7 @@ class UserController extends AbstractController
         UserRepository $repository
     ): JsonResponse
     {
+        /** @var User $user */
         $user = $serializer->deserialize($request->getContent(), User::class, 'json');
         
         $emailInUse = $repository->findBy(['email' => $user->getEmail()]);
