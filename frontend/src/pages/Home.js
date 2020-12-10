@@ -2,6 +2,9 @@ import { useState } from 'react'
 import CountryDropdowns from '../components/homepage/CountryDropdowns'
 import SymmetricCountryChart from '../components/homepage/SymmetricCountryChart'
 import PropTypes from 'prop-types'
+import Loader from 'react-loader-spinner'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import { LoaderContainer } from '../styles/ReusableComponents'
 
 export default function Home({ countries }) {
   const [displayedCountries, setDisplayedCountries] = useState(
@@ -16,7 +19,9 @@ export default function Home({ countries }) {
     <>
       {countries.isError && <p>An error occurred while fetching data</p>}
       {countries.isLoading ? (
-        <p>Loading...</p>
+        <LoaderContainer>
+          <Loader type="ThreeDots" color="grey" height={100} width={100} timeout={3000} />
+        </LoaderContainer>
       ) : (
         <>
           <CountryDropdowns

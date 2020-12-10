@@ -5,6 +5,9 @@ import getUser from '../services/getUser'
 import ProfilePage from './ProfilePage'
 import NotLoggedInPage from './NotLoggedInPage'
 import PropTypes from 'prop-types'
+import Loader from 'react-loader-spinner'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import { LoaderContainer } from '../styles/ReusableComponents'
 
 export default function UserPage({ handleStatusChange, status }) {
   const [userData, dispatchUserData] = useReducer(loadingReducer, {
@@ -29,7 +32,9 @@ export default function UserPage({ handleStatusChange, status }) {
     <>
       {userData.isError && <p>An error occurred while fetching data</p>}
       {userData.isLoading ? (
-        <p>Loading...</p>
+        <LoaderContainer>
+          <Loader type="ThreeDots" color="grey" height={100} width={100} timeout={3000} />
+        </LoaderContainer>
       ) : userData.data.hasOwnProperty('loggedIn') ? (
         <NotLoggedInPage handleStatusChange={handleStatusChange} status={status} />
       ) : (

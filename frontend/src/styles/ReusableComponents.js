@@ -62,6 +62,14 @@ const FailureNotification = styled.p`
   margin-top: 10px;
 `
 
+const LoaderContainer = styled.div`
+  padding-top: 30vh;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+`
+
 export {
   Wrapper,
   ContentContainer,
@@ -71,4 +79,5 @@ export {
   FormInput,
   SubmitButton,
   FailureNotification,
+  LoaderContainer,
 }

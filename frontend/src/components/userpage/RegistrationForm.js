@@ -1,4 +1,5 @@
 import { useReducer } from 'react'
+import styled from 'styled-components/macro'
 import useForm from '../../hooks/useForm'
 import postingReducer from '../../reducer/postingReducer'
 import { postInit, postSuccess, postFailure } from '../../actions/postingActions'
@@ -11,6 +12,8 @@ import {
 import { validateRegistration } from '../../services/validations'
 import { createUser } from '../../services/createUser'
 import PropTypes from 'prop-types'
+import Loader from 'react-loader-spinner'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 export default function RegisterForm({ setRegistrationOption }) {
   const [registrationStatus, dispatchRegistrationStatus] = useReducer(postingReducer, {
@@ -31,7 +34,9 @@ export default function RegisterForm({ setRegistrationOption }) {
   return (
     <>
       {registrationStatus.isPosting ? (
-        <p>Loading. Please wait...</p>
+        <LoaderContainerRegistration>
+          <Loader type="ThreeDots" color="grey" height={100} width={100} timeout={3000} />
+        </LoaderContainerRegistration>
       ) : (
         <>
           <FlexForm onSubmit={handleSubmit}>
@@ -89,6 +94,14 @@ export default function RegisterForm({ setRegistrationOption }) {
     }
   }
 }
+
+const LoaderContainerRegistration = styled.div`
+  padding-top: 6vh;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+`
 
 RegisterForm.propTypes = {
   handleStatusChange: PropTypes.func,
