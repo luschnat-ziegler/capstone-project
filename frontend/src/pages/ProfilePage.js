@@ -1,18 +1,20 @@
 import Slider from 'rc-slider' 
 import 'rc-slider/assets/index.css'
-import { useState } from 'react'
+import { useState, useReducer } from 'react'
+import postingReducer from '../reducer/postingReducer'
 import { 
     Wrapper, 
     ContentContainer, 
     Heading, 
     SubHeading,
-    SubmitButton
+    SubmitButton, 
+    FailureNotification
 } from '../styles/ReusableComponents'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 
 import { deleteToken } from '../services/tokenStorage'
-import updateUser from '../services/userUpdate'
+import updateUser from '../services/updateUser'
 
 export default function ProfilePage({userData, handleStatusChange, status}) {
 
@@ -25,6 +27,11 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
         weightFreedom: userData.weightFreedom === null ? 2 : userData.weightFreedom
     })
 
+    const [updateStatus, dispatchUpdateStatus] = useReducer(
+        postingReducer,
+        {isPosting: false, isError: false}
+      )
+
     return  (
         <Wrapper>
             <HorizontalFlexContainer>
@@ -32,12 +39,13 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
                 <LogOutButton onClick={logOut}>Log me out!</LogOutButton>
             </HorizontalFlexContainer>
             <ContentContainer>
-                <HorizontalFlexContainer>
+                <ProfileInfoContainer>
                     <p>{userData.firstName} {userData.lastName}</p>
                     <p>{userData.email}</p>
-                </HorizontalFlexContainer>
+                </ProfileInfoContainer>
             </ContentContainer>
             <ContentContainer>
+                {updateStatus.isPosting ? <p>Please wait...</p> : 
                 <SliderFlexContainer>
                     <SubHeading>Slide to adjust your priority settings:</SubHeading>
                     <BarLegend>Environment and Climate</BarLegend>
@@ -83,7 +91,8 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
                         onChange={(event) => onSliderChange(event, "weightEquality")}
                         />
                     <SubmitButton onClick={submitPrefs}>Submit!</SubmitButton>
-                </SliderFlexContainer>
+                    {updateStatus.isError && <FailureNotification>Please try again.</FailureNotification>}
+                </SliderFlexContainer>}
             </ContentContainer>
         </Wrapper>
     )
@@ -96,16 +105,19 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
     }
 
     function submitPrefs () {
+        dispatchUpdateStatus({type: 'POST_INIT'})
         updateUser(sliderValues)
         .then(data => {
             if (data.loggedIn === false) {
+                dispatchUpdateStatus({type: 'POST_FAILURE'})
                 handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
             } else {
+                dispatchUpdateStatus({type: 'POST_SUCCESS'})
                 alert("Update complete")
                 handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
             }
         })
-        .catch(error => console.log(error))
+        .catch(() => dispatchUpdateStatus({type: 'POST_FAILURE'}))
     }
 
     function logOut() {
@@ -115,6 +127,12 @@ export default function ProfilePage({userData, handleStatusChange, status}) {
 }
 
 const HorizontalFlexContainer = styled.div`
+    display: flex;
+    justify-content: space-around;
+    align-items:center;
+`
+
+const ProfileInfoContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items:center;

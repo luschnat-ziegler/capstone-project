@@ -28,7 +28,7 @@ function App() {
           payload: calcUserScore(result)
           })
       })
-      .catch(error => dispatchCountriesAndUser({type: 'FETCH_FAILURE'}))
+      .catch(() => dispatchCountriesAndUser({type: 'FETCH_FAILURE'}))
   }, [userLogInChange])
 
   return (

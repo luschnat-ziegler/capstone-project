@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useReducer } from 'react'
+import useForm from '../../hooks/useForm'
+import postingReducer from '../../reducer/postingReducer'
 import { 
     FlexForm,
     SubmitButton, 
@@ -11,79 +13,69 @@ import PropTypes from 'prop-types'
  
 export default function RegisterForm ({setRegistrationOption}) {
 
-    const [registrationData, setRegistrationData] = useState ({
-        email: '',
-        password: '',
-        lastName: '',
-        firstName: ''
-    })
+    const [registrationStatus, dispatchRegistrationStatus] = useReducer(
+        postingReducer,
+        {isPosting: false, isError: false}
+      )
 
-    const [isFailure, setIsFailure] = useState(false)
-    const [isPosting, setIsPosting] = useState(false)
+    const {inputs, handleInputChange, handleSubmit} = useForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: ""
+    }, submitForm)
 
     return (<>
-        {isPosting ? <p>Loading. Please wait...</p> : <>
-        <FlexForm onSubmit={submitForm}>
+        {registrationStatus.isPosting ? <p>Loading. Please wait...</p> : <>
+        <FlexForm onSubmit={handleSubmit}>
             <FormInput 
                 type="text" 
                 name="firstName" 
-                onChange={handleChange} 
-                value={registrationData.firstName}
+                onChange={handleInputChange} 
+                value={inputs.firstName}
                 placeholder={"First Name"}
             />
             <FormInput 
                 type="text" 
                 name="lastName" 
-                onChange={handleChange} 
-                value={registrationData.lastName}
+                onChange={handleInputChange} 
+                value={inputs.lastName}
                 placeholder={"Last Name"}
             />
             <FormInput 
                 type="text" 
                 name="email" 
-                onChange={handleChange} 
-                value={registrationData.email}
+                onChange={handleInputChange} 
+                value={inputs.email}
                 placeholder={"E-Mail"}
             />
             <FormInput 
                 type="password" 
                 name="password" 
-                onChange={handleChange} 
-                value={registrationData.password}
+                onChange={handleInputChange} 
+                value={inputs.password}
                 placeholder="Password"
             />
             <SubmitButton>Register</SubmitButton>
         </FlexForm>
-        {isFailure && <FailureNotification>Please try again</FailureNotification>}
+        {registrationStatus.isError && <FailureNotification>Please try again</FailureNotification>}
         </>}
     </>)
 
-    function handleChange(event) {
-        const fieldValue = event.target.value
-        setRegistrationData({
-            ...registrationData,
-            [event.target.name]: fieldValue
-        })
-    }
-
-    function submitForm(event) {
-        setIsPosting(true)
-        event.preventDefault()
-        if (validateRegistration(registrationData)) {
-            createUser(registrationData)
+    function submitForm() {
+        dispatchRegistrationStatus({type: 'POST_INIT'})
+        if (validateRegistration(inputs)) {
+            createUser(inputs)
             .then((data) => {
                 if(data.userRegistration === false) {
-                    setIsFailure(true)
-                    setIsPosting(false)
+                    dispatchRegistrationStatus({type: 'POST_FAILURE'})
                 } else {
-                    setIsFailure(false)
-                    setIsPosting(false)
+                    dispatchRegistrationStatus({type: 'POST_SUCCESS'})
                     setRegistrationOption(false)
                 }
             })
         } else {
-            setIsFailure(true)
-            setIsPosting(false)
+            dispatchRegistrationStatus({type: 'POST_FAILURE'})
         }
     }
 }

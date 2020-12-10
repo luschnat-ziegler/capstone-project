@@ -11,11 +11,13 @@ export default function CountryDropdowns ({countries, handleDisplayedCountries, 
     
     return (
         <Wrapper>
-        <Select styles={styles}
+        <Select 
+            styles={styles}
             options = {dropdownOptions}
             onChange = {handlerLeft}
         />
-        <Select styles={styles}
+        <Select 
+            styles={styles}
             options = {dropdownOptions}
             onChange = {handlerRight}
         />

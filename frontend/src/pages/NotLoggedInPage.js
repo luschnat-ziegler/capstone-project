@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { Heading, Wrapper, ContentContainer } from '../styles/ReusableComponents'
-import LogInForm from '../components/userpage/LogInForm'
+import LoginForm from '../components/userpage/LoginForm'
 import RegistrationForm from '../components/userpage/RegistrationForm'
 import PropTypes from 'prop-types'
 
@@ -17,7 +17,7 @@ export default function NotLoggedInPage({handleStatusChange, status}) {
     </ButtonContainer>
     <ContentContainer>
         {!registrationOption ? 
-        <LogInForm 
+        <LoginForm 
             handleStatusChange={handleStatusChange} 
             status={status}
         /> : 

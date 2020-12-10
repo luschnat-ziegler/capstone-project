@@ -1,4 +1,6 @@
-import {useState} from 'react'
+import { useReducer} from 'react'
+import useForm from '../../hooks/useForm'
+import postingReducer from '../../reducer/postingReducer'
 import {
     FormInput, 
     FlexForm,
@@ -10,71 +12,60 @@ import logInUser from '../../services/logInUser'
 import {saveToken} from '../../services/tokenStorage'
 import PropTypes from 'prop-types'
 
-export default function LogInForm({handleStatusChange, status}) {
+export default function LoginForm({handleStatusChange, status}) {
 
-    const [logInData, setLogInData] = useState ({
-        email: '',
-        password: ''
-    })
+    const [loginStatus, dispatchLoginStatus] = useReducer(
+        postingReducer,
+        {isPosting: false, isError: false}
+      )
 
-    const [isFailure, setIsFailure] = useState(false)
-    const [isPosting, setIsPosting] = useState(false)
+    const {inputs, handleInputChange, handleSubmit} = useForm(
+        {email: "", password: ""},
+        submitForm)
 
     return (
         <>
-        {isPosting ? <p>Loading. Please wait...</p> : <>
-        <FlexForm onSubmit={submitForm}>
+        {loginStatus.isPosting ? <p>Loading. Please wait...</p> : <>
+        <FlexForm onSubmit={handleSubmit}>
                 <FormInput 
                     type="text" 
                     name="email" 
-                    onChange={handleChange} 
-                    value={logInData.email}
+                    onChange={handleInputChange} 
+                    value={inputs.email}
                     placeholder={"E-Mail"}
                 />
                 <FormInput 
                     type="password" 
                     name="password" 
-                    onChange={handleChange} 
-                    value={logInData.password}
+                    onChange={handleInputChange} 
+                    value={inputs.password}
                     placeholder={"Password"}
                 />
                 <SubmitButton>Log In</SubmitButton>
             </FlexForm>
-            {isFailure && <FailureNotification>Please try again</FailureNotification>}</>}
+            {loginStatus.isError && <FailureNotification>Please try again</FailureNotification>}</>}
         </>)
 
-    function handleChange(event) {
-        const fieldValue = event.target.value
-        setLogInData({
-            ...logInData,
-            [event.target.name]: fieldValue
-        })
-    }
-
-    function submitForm(event) {
-        setIsPosting(true)
-        event.preventDefault()
-        if(validateEmail(logInData.email)) {
-        logInUser(logInData)
+    function submitForm() {
+        dispatchLoginStatus({type: 'POST_INIT'})
+        if(validateEmail(inputs.email)) {
+        logInUser(inputs)
         .then(data => {
             if (data.success === false) {
-                setIsFailure(true)
-                setIsPosting(false)
+                dispatchLoginStatus({type: 'POST_FAILURE'})
             } else {
                 saveToken(data.value)
-                setIsFailure(false)
-                setIsPosting(false)
+                dispatchLoginStatus({type: 'POST_SUCCESS'})
                 handleStatusChange(status === "toggle" ? "untoggle" : "toggle")
             }
         })
         } else {
-            setIsPosting(false)
-            setIsFailure(true)
+            dispatchLoginStatus({type: 'POST_FAILURE'})
         }
     }
 }
 
-LogInForm.propTypes = {
+LoginForm.propTypes = {
     handleStatusChange: PropTypes.func,
     status: PropTypes.string
 }
