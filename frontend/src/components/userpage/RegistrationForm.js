@@ -1,70 +1,96 @@
-import { useState } from 'react'
-import { SubHeading, GridForm, SubmitButton, FailureNotification } from '../../styles/ReusableComponents'
+import { useReducer } from 'react'
+import useForm from '../../hooks/useForm'
+import postingReducer from '../../reducer/postingReducer'
+import { postInit, postSuccess, postFailure } from '../../actions/postingActions'
+import {
+  FlexForm,
+  SubmitButton,
+  FailureNotification,
+  FormInput,
+} from '../../styles/ReusableComponents'
 import { validateRegistration } from '../../services/validations'
 import { createUser } from '../../services/createUser'
 import PropTypes from 'prop-types'
- 
-export default function RegisterForm ({setRegistrationOption}) {
 
-    const [registrationData, setRegistrationData] = useState ({
-        email: '',
-        password: '',
-        lastName: '',
-        firstName: ''
-    })
+export default function RegisterForm({ setRegistrationOption }) {
+  const [registrationStatus, dispatchRegistrationStatus] = useReducer(postingReducer, {
+    isPosting: false,
+    isError: false,
+  })
 
-    const [isFailure, setIsFailure] = useState(false)
-    const [isPosting, setIsPosting] = useState(false)
+  const { inputs, handleInputChange, handleSubmit } = useForm(
+    {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    },
+    submitForm
+  )
 
-    return (<>
-        {isPosting ? <p>Loading. Please wait...</p> : <>
-        <SubHeading>Register new account:</SubHeading>
-        <GridForm onSubmit={submitForm}>
-            <label htmlFor="firstName"><strong>First Name</strong></label>
-            <input type="text" name="firstName" onChange={handleChange} value={registrationData.firstName}></input>
-            <label htmlFor="lastName"><strong>Last Name</strong></label>
-            <input type="text" name="lastName" onChange={handleChange} value={registrationData.lastName}></input>
-            <label htmlFor="email"><strong>E-Mail</strong></label>
-            <input type="text" name="email" onChange={handleChange} value={registrationData.email}></input>
-            <label htmlFor="password"><strong>Password</strong></label>
-            <input type="text" name="password" onChange={handleChange} value={registrationData.password}></input>
-            <SubmitButton>Submit</SubmitButton>
-        </GridForm>
-        {isFailure && <FailureNotification>Please try again</FailureNotification>}
-        </>}
-    </>)
+  return (
+    <>
+      {registrationStatus.isPosting ? (
+        <p>Loading. Please wait...</p>
+      ) : (
+        <>
+          <FlexForm onSubmit={handleSubmit}>
+            <FormInput
+              type="text"
+              name="firstName"
+              onChange={handleInputChange}
+              value={inputs.firstName}
+              placeholder={'First Name'}
+            />
+            <FormInput
+              type="text"
+              name="lastName"
+              onChange={handleInputChange}
+              value={inputs.lastName}
+              placeholder={'Last Name'}
+            />
+            <FormInput
+              type="text"
+              name="email"
+              onChange={handleInputChange}
+              value={inputs.email}
+              placeholder={'E-Mail'}
+            />
+            <FormInput
+              type="password"
+              name="password"
+              onChange={handleInputChange}
+              value={inputs.password}
+              placeholder="Password"
+            />
+            <SubmitButton>Register</SubmitButton>
+          </FlexForm>
+          {registrationStatus.isError && (
+            <FailureNotification>Please try again</FailureNotification>
+          )}
+        </>
+      )}
+    </>
+  )
 
-    function handleChange(event) {
-        const fieldValue = event.target.value
-        setRegistrationData({
-            ...registrationData,
-            [event.target.name]: fieldValue
-        })
-    }
-
-    function submitForm(event) {
-        setIsPosting(true)
-        event.preventDefault()
-        if (validateRegistration(registrationData)) {
-            createUser(registrationData)
-            .then((data) => {
-                if(data.userRegistration === false) {
-                    setIsFailure(true)
-                    setIsPosting(false)
-                } else {
-                    setIsFailure(false)
-                    setIsPosting(false)
-                    setRegistrationOption(false)
-                }
-            })
+  function submitForm() {
+    dispatchRegistrationStatus({ type: postInit })
+    if (validateRegistration(inputs)) {
+      createUser(inputs).then((data) => {
+        if (data.userRegistration === false) {
+          dispatchRegistrationStatus({ type: postFailure })
         } else {
-            setIsFailure(true)
-            setIsPosting(false)
+          dispatchRegistrationStatus({ type: postSuccess })
+          setRegistrationOption(false)
         }
+      })
+    } else {
+      dispatchRegistrationStatus({ type: postFailure })
     }
+  }
 }
 
 RegisterForm.propTypes = {
-    handleStatusChange: PropTypes.func,
-    status: PropTypes.string
+  handleStatusChange: PropTypes.func,
+  status: PropTypes.string,
 }

@@ -1,53 +1,54 @@
-import {useEffect, useReducer, useState} from 'react'
-import {Route, Switch} from 'react-router-dom'
+import { useEffect, useReducer, useState } from 'react'
+import { Route, Switch } from 'react-router-dom'
 import loadingReducer from './reducer/loadingReducer'
+import { fetchInit, fetchSuccess, fetchFailure } from './actions/loadingActions'
 import getCountriesAndUser from './services/getCountriesAndUser'
 import calcUserScore from './services/calcUserScore'
 
-import Home from './components/homepage/Home'
+import Home from './pages/Home'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import GlobalStyles from "./styles/GlobalStyles"
-import UserPage from './components/userpage/UserPage'
+import GlobalStyles from './styles/GlobalStyles'
+import UserPage from './pages/UserPage'
 
 function App() {
+  const [countriesAndUser, dispatchCountriesAndUser] = useReducer(loadingReducer, {
+    data: [],
+    isLoading: false,
+    isError: false,
+  })
 
-  const [countries, dispatchCountries] = useReducer(
-    loadingReducer,
-    {data: [], isLoading: false, isError: false}
-  )
+  const [userLogInChange, setUserLogInChange] = useState('toggle')
 
-  const [userLogInChange, setUserLogInChange] = useState("toggle")
-  
   useEffect(() => {
-    dispatchCountries({type: 'FETCH_INIT'})
-    getCountriesAndUser()      
-    .then(result => {
-          dispatchCountries({
-          type: 'FETCH_SUCCESS',
-          payload: calcUserScore(result)
-          })
+    dispatchCountriesAndUser({ type: fetchInit })
+    getCountriesAndUser()
+      .then((result) => {
+        dispatchCountriesAndUser({
+          type: fetchSuccess,
+          payload: calcUserScore(result),
+        })
       })
-      .catch(error => dispatchCountries({type: 'FETCH_FAILURE'}))
+      .catch(() => dispatchCountriesAndUser({ type: fetchFailure }))
   }, [userLogInChange])
 
   return (
-    <div className="App">
-      <GlobalStyles/>
-      <Header/>
+    <div>
+      <GlobalStyles />
+      <Header />
       <main>
         <Switch>
           <Route exact path="/">
-            <Home data={countries}/>
+            <Home countries={countriesAndUser} />
           </Route>
-          <Route path="/user" >
-            <UserPage handleStatusChange={setUserLogInChange} status={userLogInChange}/>
+          <Route path="/user">
+            <UserPage handleStatusChange={setUserLogInChange} status={userLogInChange} />
           </Route>
         </Switch>
       </main>
-      <Footer/>
+      <Footer />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
