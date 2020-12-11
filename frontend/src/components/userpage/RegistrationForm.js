@@ -35,7 +35,7 @@ export default function RegisterForm({ setRegistrationOption }) {
     <>
       {registrationStatus.isPosting ? (
         <LoaderContainerRegistration>
-          <Loader type="ThreeDots" color="grey" height={100} width={100} timeout={3000} />
+          <Loader type="ThreeDots" color="grey" height={80} width={80} timeout={6000} />
         </LoaderContainerRegistration>
       ) : (
         <>
