@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Repository\TokenRepository;
 use App\Service\AuthenticationService;
+use App\Service\PasswordEncoder;
 
 class UserController extends AbstractController
 {
@@ -33,10 +34,12 @@ class UserController extends AbstractController
             return $this->json(["loggedIn" => false], JsonResponse::HTTP_UNAUTHORIZED);
         }
         
+        $ignoredAttributes = ['password', 'comments', 'tokens', 'roles', 'salt', 'username'];
+
         return new JsonResponse(
             $serializer->serialize($authData["user"], 'json',
                 [
-                    ObjectNormalizer::IGNORED_ATTRIBUTES => ['password', 'comments', 'tokens']
+                    ObjectNormalizer::IGNORED_ATTRIBUTES => $ignoredAttributes
                 ]),
             JsonResponse::HTTP_OK,
             [],
@@ -51,18 +54,21 @@ class UserController extends AbstractController
     public function register(
         Request $request,
         SerializerInterface $serializer,
-        UserRepository $repository
+        UserRepository $repository,
+        PasswordEncoder $passwordEncoder
     ): JsonResponse
     {
-        /** @var User $user */
-        $user = $serializer->deserialize($request->getContent(), User::class, 'json');
+        /** @var User $newUser */
+        $newUser = $serializer->deserialize($request->getContent(), User::class, 'json');
         
-        $emailInUse = $repository->findBy(['email' => $user->getEmail()]);
+        $emailInUse = $repository->findBy(['email' => $newUser->getEmail()]);
         if(sizeof($emailInUse) > 0) {
             return $this->json(["userRegistration"=>false], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $repository->save($user);
+        $passwordEncoder->encode($newUser->getPassword(), $newUser);
+
+        $repository->save($newUser);
 
         return $this->json(["userRegistration"=>true], JsonResponse::HTTP_OK);
     }

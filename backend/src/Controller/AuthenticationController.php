@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Repository\UserRepository;
 use App\Repository\TokenRepository;
+use App\Service\LoginService;
 
 class AuthenticationController extends AbstractController
 {
@@ -20,17 +21,18 @@ class AuthenticationController extends AbstractController
         Request $request,
         UserRepository $userRepository,
         TokenRepository $tokenRepository,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        LoginService $loginService
     ): JsonResponse
     {
         $post = json_decode($request->getContent(), true);
-        $user = $userRepository->login($post['email'], $post['password']);
+        $loginData = $loginService->login($post['email'], $post['password']);
         
-        if(is_null($user)) {
+        if(!$loginData['isValid']) {
             return $this->json(["success"=>false], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $token = $tokenRepository->create($user);
+        $token = $tokenRepository->create($loginData['user']);
 
         return new JsonResponse(
             $serializer->serialize($token, 'json', 
