@@ -51,7 +51,7 @@ export default function ProfilePage({ userData, handleStatusChange, status }) {
       <ContentContainer>
         {updateStatus.isPosting ? (
           <LoaderContainerProfile>
-            <Loader type="ThreeDots" color="grey" height={100} width={100} timeout={3000} />
+            <Loader type="ThreeDots" color="grey" height={80} width={80} timeout={6000} />
           </LoaderContainerProfile>
         ) : (
           <SliderFlexContainer>

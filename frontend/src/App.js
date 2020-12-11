@@ -18,18 +18,33 @@ function App() {
     isError: false,
   })
 
+  const [displayedCountries, setDisplayedCountries] = useState({
+    countryLeft: {},
+    countryRight: {},
+  })
+
   const [userLogInChange, setUserLogInChange] = useState('toggle')
 
   useEffect(() => {
     dispatchCountriesAndUser({ type: fetchInit })
     getCountriesAndUser()
       .then((result) => {
+        const data = calcUserScore(result)
         dispatchCountriesAndUser({
           type: fetchSuccess,
-          payload: calcUserScore(result),
+          payload: calcUserScore(data),
+        })
+        setDisplayedCountries({
+          countryLeft: displayedCountries.countryLeft.id
+            ? data[0].find((country) => country.id === displayedCountries.countryLeft.id)
+            : {},
+          countryRight: displayedCountries.countryRight.id
+            ? data[0].find((country) => country.id === displayedCountries.countryRight.id)
+            : {},
         })
       })
       .catch(() => dispatchCountriesAndUser({ type: fetchFailure }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userLogInChange])
 
   return (
@@ -39,7 +54,11 @@ function App() {
       <main>
         <Switch>
           <Route exact path="/">
-            <Home countries={countriesAndUser} />
+            <Home
+              countries={countriesAndUser}
+              shownCountries={displayedCountries}
+              handleShownCountries={setDisplayedCountries}
+            />
           </Route>
           <Route path="/user">
             <UserPage handleStatusChange={setUserLogInChange} status={userLogInChange} />

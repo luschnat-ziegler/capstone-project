@@ -33,7 +33,7 @@ export default function UserPage({ handleStatusChange, status }) {
       {userData.isError && <p>An error occurred while fetching data</p>}
       {userData.isLoading ? (
         <LoaderContainer>
-          <Loader type="ThreeDots" color="grey" height={100} width={100} timeout={3000} />
+          <Loader type="ThreeDots" color="grey" height={80} width={80} timeout={6000} />
         </LoaderContainer>
       ) : userData.data.hasOwnProperty('loggedIn') ? (
         <NotLoggedInPage handleStatusChange={handleStatusChange} status={status} />

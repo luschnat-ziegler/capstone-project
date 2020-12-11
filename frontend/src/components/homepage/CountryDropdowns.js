@@ -14,8 +14,30 @@ export default function CountryDropdowns({
 
   return (
     <Wrapper>
-      <Select styles={styles} options={dropdownOptions} onChange={handlerLeft} />
-      <Select styles={styles} options={dropdownOptions} onChange={handlerRight} />
+      <Select
+        styles={styles}
+        options={dropdownOptions}
+        onChange={handlerLeft}
+        placeholder={'Select Country 1'}
+        defaultValue={
+          displayedCountries.countryLeft.country && {
+            value: displayedCountries.countryLeft,
+            label: displayedCountries.countryLeft.country,
+          }
+        }
+      />
+      <Select
+        styles={styles}
+        options={dropdownOptions}
+        onChange={handlerRight}
+        placeholder={'Select Country 2'}
+        defaultValue={
+          displayedCountries.countryRight.country && {
+            value: displayedCountries.countryRight,
+            label: displayedCountries.countryRight.country,
+          }
+        }
+      />
     </Wrapper>
   )
 

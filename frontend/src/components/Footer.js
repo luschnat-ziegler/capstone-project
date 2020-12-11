@@ -5,10 +5,6 @@ import { UserIcon, HomeIcon } from '../styles/svgIcons'
 export default function Footer() {
   return (
     <Wrapper>
-      {/*
-        <NavLinkStyled exact to="/">Home</NavLinkStyled>
-        <NavLinkStyled to="/user">User</NavLinkStyled>
-        */}
       <NavLinkIcon exact to="/">
         <HomeIcon />
       </NavLinkIcon>
