@@ -32,7 +32,7 @@ function App() {
         const data = calcUserScore(result)
         dispatchCountriesAndUser({
           type: fetchSuccess,
-          payload: calcUserScore(data),
+          payload: data,
         })
         setDisplayedCountries({
           countryLeft: displayedCountries.countryLeft.id
