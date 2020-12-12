@@ -59,7 +59,8 @@ class UserController extends AbstractController
         Request $request,
         UserRepository $repository,
         PasswordEncoder $passwordEncoder,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        SerializerInterface $serializer
     ): JsonResponse
     {
         /** @var User $newUser */

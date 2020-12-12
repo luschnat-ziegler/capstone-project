@@ -47,7 +47,7 @@ const Bar = styled.div`
   border-radius: ${(props) => (props.left ? '5px 0 0 5px' : '0 5px 5px 0')};
   background-color: ${(props) => colorScale(props.data)};
   height: 30px;
-  width: ${(props) => String(props.data) + '%'};
+  width: ${(props) => String(props.data * 0.9) + '%'};
   justify-self: ${(props) => props.left && 'end'};
 `
 

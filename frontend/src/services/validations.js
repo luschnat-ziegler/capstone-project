@@ -3,15 +3,18 @@ const hasValidDomain = (email) => {
   return parts.length > 1 && parts[parts.length - 1].length > 1
 }
 
-export const validateEmail = (email) => email.includes('@') && hasValidDomain(email)
+const validateEmail = (email) => email.includes('@') && hasValidDomain(email)
 
-const validateText = (text) => text.length > 1
+const validatePassword = (password) => password.length > 1 && password.length < 256
+const validateName = (name) => name.length > 1 && name.length < 256
 
-export const validateRegistration = ({ firstName, lastName, email, password }) => {
+const validateRegistration = ({ firstName, lastName, email, password }) => {
   return (
     validateEmail(email) &&
-    validateText(lastName) &&
-    validateText(firstName) &&
-    validateText(password)
+    validateName(lastName) &&
+    validateName(firstName) &&
+    validatePassword(password)
   )
 }
+
+export { validateEmail, validateRegistration }
