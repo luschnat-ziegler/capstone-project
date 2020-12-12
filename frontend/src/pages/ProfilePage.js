@@ -117,7 +117,7 @@ export default function ProfilePage({ userData, handleStatusChange, status }) {
     dispatchUpdateStatus({ type: postInit })
     updateUser(sliderValues)
       .then((data) => {
-        if (data.loggedIn === false) {
+        if (data.success === false) {
           dispatchUpdateStatus({ type: postFailure })
           handleStatusChange(status === 'toggle' ? 'untoggle' : 'toggle')
         } else {

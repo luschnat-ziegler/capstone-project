@@ -35,7 +35,7 @@ export default function UserPage({ handleStatusChange, status }) {
         <LoaderContainer>
           <Loader type="ThreeDots" color="grey" height={80} width={80} timeout={6000} />
         </LoaderContainer>
-      ) : userData.data.hasOwnProperty('loggedIn') ? (
+      ) : userData.data.success === false ? (
         <NotLoggedInPage handleStatusChange={handleStatusChange} status={status} />
       ) : (
         <ProfilePage
