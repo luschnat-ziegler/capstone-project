@@ -327,6 +327,8 @@ class User implements UserInterface
         
     }  
 
-    public function getUsername(): void {}
+    public function getUsername() {
+        return "";
+    }
 
 }
