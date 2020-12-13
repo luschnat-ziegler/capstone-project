@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,51 +23,63 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Email(message = "'{{ value }}' is not a valid email address.")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length( min=6, max=255, minMessage = "Your password is too short.", maxMessage = "Your password is too long")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length( min=2, max=255, minMessage = "Your first name must have at least {{ limit }} characters.", maxMessage = "Your first name is too long and might break the internet.")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length( min=2, max=255, minMessage = "Your last name must have at least {{ limit }} characters.", maxMessage = "The elders of the internet do not approve your long last name.")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0, max=4, notInRangeMessage = "Weights must be in interval [{{min}},{{max}}].")
      */
     private $weightEnvironment;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0, max=4, notInRangeMessage = "Weights must be in interval [{{min}},{{max}}].")
      */
     private $weightGender;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0, max=4, notInRangeMessage = "Weights must be in interval [{{min}},{{max}}].")
      */
     private $WeightLgbtq;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0, max=4, notInRangeMessage = "Weights must be in interval [{{min}},{{max}}].")
      */
     private $weightEquality;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0, max=4, notInRangeMessage = "Weights must be in interval [{{min}},{{max}}].")
      */
     private $weightCorruption;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0, max=4, notInRangeMessage = "Weights must be in interval [{{min}},{{max}}].")
      */
     private $weightFreedom;
 

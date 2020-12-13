@@ -82,7 +82,7 @@ export default function RegisterForm({ setRegistrationOption }) {
     dispatchRegistrationStatus({ type: postInit })
     if (validateRegistration(inputs)) {
       createUser(inputs).then((data) => {
-        if (data.userRegistration === false) {
+        if (data.success === false) {
           dispatchRegistrationStatus({ type: postFailure })
         } else {
           dispatchRegistrationStatus({ type: postSuccess })

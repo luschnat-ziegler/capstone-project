@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Repository\TokenRepository;
@@ -31,7 +32,10 @@ class UserController extends AbstractController
         $authData = $authentication->validateUser($request);
         
         if ($authData['success'] === false) {
-            return $this->json(["loggedIn" => false], JsonResponse::HTTP_UNAUTHORIZED);
+            return $this->json([
+                "success" => false,
+                "error" => "NOT_LOGGED_IN"
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
         
         $ignoredAttributes = ['password', 'comments', 'tokens', 'roles', 'salt', 'username'];
@@ -53,9 +57,10 @@ class UserController extends AbstractController
 
     public function register(
         Request $request,
-        SerializerInterface $serializer,
         UserRepository $repository,
-        PasswordEncoder $passwordEncoder
+        PasswordEncoder $passwordEncoder,
+        ValidatorInterface $validator,
+        SerializerInterface $serializer
     ): JsonResponse
     {
         /** @var User $newUser */
@@ -63,14 +68,24 @@ class UserController extends AbstractController
         
         $emailInUse = $repository->findBy(['email' => $newUser->getEmail()]);
         if(sizeof($emailInUse) > 0) {
-            return $this->json(["userRegistration"=>false], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->json([
+                "success" => false,
+                "error" => 'EMAIL_IN_USE'
+            ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $violations = $validator->validate($newUser);
+        if(count($violations) > 0) {
+            return $this->json([
+                "success" => false,
+                "error" => 'INVALID_DATA'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $passwordEncoder->encode($newUser->getPassword(), $newUser);
-
         $repository->save($newUser);
 
-        return $this->json(["userRegistration"=>true], JsonResponse::HTTP_OK);
+        return $this->json(["success"=>true], JsonResponse::HTTP_OK);
     }
 
     /**
@@ -81,18 +96,31 @@ class UserController extends AbstractController
         Request $request,
         AuthenticationService $authentication,
         TokenRepository $tokenRepository,
-        UserRepository $repository
+        UserRepository $repository,
+        ValidatorInterface $validator
     ): JsonResponse
     {
         $authData = $authentication->validateUser($request);
         
         if ($authData['success'] === false) {
-            return $this->json(["loggedIn" => false], JsonResponse::HTTP_UNAUTHORIZED);
+            return $this->json([
+                "success" => false,
+                "error" => "NOT_LOGGED_IN"
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
         
         $user = $authData["user"];
         $post = json_decode($request->getContent(), true);
         $user->updateWeights($post);
+
+        $violations = $validator->validate($user);
+        if(count($violations) > 0) {
+            return $this->json([
+                "success" => false,
+                "error" => "INVALID_DATA"
+            ], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
         $repository->save($user);
 
         return $this->json(["success" => true], JsonResponse::HTTP_OK);
