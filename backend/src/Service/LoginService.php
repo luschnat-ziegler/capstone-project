@@ -30,9 +30,9 @@ class LoginService {
         {
             return $userData = [ 'isValid' => false ];
         }
-        
+
         $isValid = $this->passwordEncoder->isPasswordValid($user, $password);
-        if (!$isValid) 
+        if (!$isValid)
         {
             return $userData = [ 'isValid' => false ];
         }
