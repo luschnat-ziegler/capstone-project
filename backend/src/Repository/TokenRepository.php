@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Token;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,7 +20,7 @@ class TokenRepository extends ServiceEntityRepository
         parent::__construct($registry, Token::class);
     }
 
-    public function create(Object $user): Token
+    public function create(User $user): Token
     {
         $validUntil = new \Datetime('+ 1 day');
 
@@ -32,6 +33,12 @@ class TokenRepository extends ServiceEntityRepository
         $this->_em->flush();
 
         return $token;
+    }
+
+    public function delete(Token $token): void 
+    {
+        $this->_em->remove($token);
+        $this->_em->flush();
     }
 
     // /**

@@ -19,8 +19,6 @@ class AuthenticationController extends AbstractController
      */
     public function createToken(
         Request $request,
-        UserRepository $userRepository,
-        TokenRepository $tokenRepository,
         SerializerInterface $serializer,
         LoginService $loginService
     ): JsonResponse
@@ -32,10 +30,8 @@ class AuthenticationController extends AbstractController
             return $this->json(["success"=>false], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $token = $tokenRepository->create($loginData['user']);
-
         return new JsonResponse(
-            $serializer->serialize($token, 'json', 
+            $serializer->serialize($loginData['token'], 'json', 
                 [
                     ObjectNormalizer::IGNORED_ATTRIBUTES => ['user', 'validUntil', 'id']
                 ]

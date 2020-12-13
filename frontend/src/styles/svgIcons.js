@@ -1,4 +1,4 @@
-export const UserIcon = () => (
+const UserIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="35"
@@ -14,7 +14,7 @@ export const UserIcon = () => (
   </svg>
 )
 
-export const HomeIcon = () => (
+const HomeIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="35"
@@ -31,7 +31,7 @@ export const HomeIcon = () => (
   </svg>
 )
 
-export const BarChartIconLeft = () => (
+const BarChartIconLeft = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="40"
@@ -50,7 +50,7 @@ export const BarChartIconLeft = () => (
   </svg>
 )
 
-export const BarChartIconRight = () => (
+const BarChartIconRight = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="40"
@@ -68,3 +68,5 @@ export const BarChartIconRight = () => (
     <line stroke="red" x1="6" y1="20" x2="6" y2="14"></line>
   </svg>
 )
+
+export { UserIcon, HomeIcon, BarChartIconLeft, BarChartIconRight }
