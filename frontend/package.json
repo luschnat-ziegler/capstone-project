@@ -13,6 +13,7 @@
     "@types/react-select": "^3.0.26",
     "d3-scale": "^3.2.3",
     "d3-scale-chromatic": "^2.0.0",
+    "jest-styled-components": "^7.0.3",
     "prop-types": "^15.7.2",
     "rc-slider": "^9.6.5",
     "react": "^17.0.1",

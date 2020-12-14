@@ -1,0 +1,272 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SymmetricCountryChart renders correctly 1`] = `
+.c1 {
+  grid-column: 1 / span 3;
+  padding: 10px;
+  color: #404040;
+}
+
+.c3 {
+  background-color: #e8eddf;
+  border: 1px solid grey;
+  grid-column: 2 / span 1;
+  height: 30px;
+  width: 100%;
+}
+
+.c2 {
+  border: 1px solid grey;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  background-color: rgb(227,243,155);
+  height: 30px;
+  width: 51.300000000000004%;
+  justify-self: end;
+}
+
+.c4 {
+  border: 1px solid grey;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  background-color: rgb(254,212,131);
+  height: 30px;
+  width: 34.2%;
+}
+
+.c5 {
+  border: 1px solid grey;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  background-color: rgb(219,240,146);
+  height: 30px;
+  width: 53.1%;
+  justify-self: end;
+}
+
+.c6 {
+  border: 1px solid grey;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  background-color: rgb(253,183,106);
+  height: 30px;
+  width: 28.8%;
+}
+
+.c8 {
+  border: 1px solid grey;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  background-color: rgb(40,154,81);
+  height: 30px;
+  width: 80.10000000000001%;
+}
+
+.c9 {
+  border: 1px solid grey;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  background-color: rgb(250,246,173);
+  height: 30px;
+  width: 44.1%;
+  justify-self: end;
+}
+
+.c10 {
+  border: 1px solid grey;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  background-color: rgb(253,198,118);
+  height: 30px;
+  width: 31.5%;
+  justify-self: end;
+}
+
+.c11 {
+  border: 1px solid grey;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  background-color: rgb(251,166,95);
+  height: 30px;
+  width: 26.1%;
+}
+
+.c12 {
+  border: 1px solid grey;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  background-color: rgb(191,228,123);
+  height: 30px;
+  width: 58.5%;
+  justify-self: end;
+}
+
+.c13 {
+  border: 1px solid grey;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  background-color: rgb(252,172,99);
+  height: 30px;
+  width: 27%;
+}
+
+.c14 {
+  border: 1px solid grey;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  background-color: rgb(133,203,103);
+  height: 30px;
+  width: 67.5%;
+  justify-self: end;
+}
+
+.c15 {
+  border: 1px solid grey;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  background-color: rgb(239,103,64);
+  height: 30px;
+  width: 17.1%;
+}
+
+.c7 {
+  padding: 5px;
+  background-color: whitesmoke;
+  color: grey;
+  border: 1px solid grey;
+  border-style: dotted;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  height: 30px;
+  width: 50%;
+  justify-self: end;
+}
+
+.c0 {
+  padding-top: 20px;
+  text-align: center;
+  width: 375px;
+  display: grid;
+  grid-template-columns: 10fr 1fr 10fr;
+}
+
+<div>
+  <section
+    class="c0"
+  >
+    <h3
+      class="c1"
+    >
+      Total Score
+    </h3>
+    <div
+      class="c2"
+      data="57"
+    />
+    <div
+      class="c3"
+    />
+    <div
+      class="c4"
+      data="38"
+    />
+    <h3
+      class="c1"
+    >
+      Democracy and Freedom
+    </h3>
+    <div
+      class="c5"
+      data="59"
+    />
+    <div
+      class="c3"
+    />
+    <div
+      class="c6"
+      data="32"
+    />
+    <h3
+      class="c1"
+    >
+      Environment and Climate
+    </h3>
+    <div
+      class="c7"
+    >
+      No data
+    </div>
+    <div
+      class="c3"
+    />
+    <div
+      class="c8"
+      data="89"
+    />
+    <h3
+      class="c1"
+    >
+      Gender Equality
+    </h3>
+    <div
+      class="c9"
+      data="49"
+    />
+    <div
+      class="c3"
+    />
+    <div
+      class="c6"
+      data="32"
+    />
+    <h3
+      class="c1"
+    >
+      LGBTQ Acceptance
+    </h3>
+    <div
+      class="c10"
+      data="35"
+    />
+    <div
+      class="c3"
+    />
+    <div
+      class="c11"
+      data="29"
+    />
+    <h3
+      class="c1"
+    >
+      Income Equality
+    </h3>
+    <div
+      class="c12"
+      data="65"
+    />
+    <div
+      class="c3"
+    />
+    <div
+      class="c13"
+      data="30"
+    />
+    <h3
+      class="c1"
+    >
+      Corruption Control
+    </h3>
+    <div
+      class="c14"
+      data="75"
+    />
+    <div
+      class="c3"
+    />
+    <div
+      class="c15"
+      data="19"
+    />
+  </section>
+</div>
+`;
