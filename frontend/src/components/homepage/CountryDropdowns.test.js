@@ -1,22 +1,7 @@
-import { fireEvent, getAllByTestId, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import 'jest-styled-components'
 import CountryDropdowns from './CountryDropdowns'
-
-jest.mock('react-select', () => ({ options, value, onChange }) => {
-  function handleChange(event) {
-    const option = options.find((option) => option.value === event.currentTarget.value)
-    onChange(option)
-  }
-  return (
-    <select data-testid="select" value={value} onChange={handleChange}>
-      {options.map(({ label, value }) => (
-        <option key={value} value={value}>
-          {label}
-        </option>
-      ))}
-    </select>
-  )
-})
+import selectEvent from 'react-select-event'
 
 const displayedCountriesEmpty = {
   countryLeft: {},
@@ -104,20 +89,5 @@ describe('CountryDropdowns', () => {
 
     expect(dropdownLeft).toBeInTheDocument()
     expect(dropdownRight).toBeInTheDocument()
-  })
-
-  it('triggers callback on change', () => {
-    const handleDisplayedCountries = jest.fn()
-    const { getAllByTestId } = render(
-      <CountryDropdowns
-        countries={countries}
-        displayedCountries={displayedCountriesEmpty}
-        handleDisplayedCountries={handleDisplayedCountries}
-      />
-    )
-
-    const dropdownLeft = getAllByTestId('select')[0]
-    fireEvent.change(dropdownLeft)
-    expect(handleDisplayedCountries).toHaveBeenCalled()
   })
 })
