@@ -18,6 +18,7 @@ export default function CountryDropdowns({
         styles={styles}
         options={dropdownOptions}
         onChange={handlerLeft}
+        name="handlerLeft"
         placeholder={'Select Country 1'}
         defaultValue={
           displayedCountries.countryLeft.country && {
@@ -30,6 +31,7 @@ export default function CountryDropdowns({
         styles={styles}
         options={dropdownOptions}
         onChange={handlerRight}
+        name="handlerRight"
         placeholder={'Select Country 2'}
         defaultValue={
           displayedCountries.countryRight.country && {

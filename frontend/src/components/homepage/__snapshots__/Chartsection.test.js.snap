@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Chartsection renders correctly 1`] = `
+.c0 {
+  grid-column: 1 / span 3;
+  padding: 10px;
+  color: #404040;
+}
+
+.c2 {
+  background-color: #e8eddf;
+  border: 1px solid grey;
+  grid-column: 2 / span 1;
+  height: 30px;
+  width: 100%;
+}
+
+.c1 {
+  border: 1px solid grey;
+  border-right: none;
+  border-radius: 5px 0 0 5px;
+  background-color: rgb(133,203,103);
+  height: 30px;
+  width: 67.5%;
+  justify-self: end;
+}
+
+.c3 {
+  border: 1px solid grey;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  background-color: rgb(239,103,64);
+  height: 30px;
+  width: 17.1%;
+}
+
+<div>
+  <h3
+    class="c0"
+  >
+    Corruption Control
+  </h3>
+  <div
+    class="c1"
+    data="75"
+  />
+  <div
+    class="c2"
+  />
+  <div
+    class="c3"
+    data="19"
+  />
+</div>
+`;
