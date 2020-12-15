@@ -1,10 +1,10 @@
 import { loadToken } from './tokenStorage'
 
-export default function getCountriesAndUser() {
-  const countriesPromise = fetch('http://countrycheck.local/countries').then((result) =>
+export default function getCountriesAndUser(apiFetch = fetch) {
+  const countriesPromise = apiFetch('http://countrycheck.local/countries').then((result) =>
     result.json()
   )
-  const userPromise = fetch('http://countrycheck.local/user', {
+  const userPromise = apiFetch('http://countrycheck.local/user', {
     headers: {
       Authorization: `Bearer ${loadToken()}`,
     },

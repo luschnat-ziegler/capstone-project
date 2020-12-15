@@ -1,9 +1,9 @@
 import { loadToken } from './tokenStorage'
 
-export default function updateUser(data) {
-  return fetch('http://countrycheck.local/user_update', {
+export default function updateUser(data, apiFetch = fetch, getToken = loadToken) {
+  return apiFetch('http://countrycheck.local/user_update', {
     headers: {
-      Authorization: `Bearer ${loadToken()}`,
+      Authorization: `Bearer ${getToken()}`,
     },
     method: 'post',
     body: JSON.stringify(data),

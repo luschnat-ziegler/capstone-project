@@ -1,7 +1,7 @@
 import { loadToken } from './tokenStorage'
 
-export default function getUser() {
-  return fetch('http://countrycheck.local/user', {
+export default function getUser(apiFetch = fetch) {
+  return apiFetch('http://countrycheck.local/user', {
     headers: {
       Authorization: `Bearer ${loadToken()}`,
     },
