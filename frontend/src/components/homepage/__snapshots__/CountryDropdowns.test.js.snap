@@ -82,6 +82,11 @@ exports[`CountryDropdowns renders correctly 1`] = `
           </div>
         </div>
       </div>
+      <input
+        name="handlerLeft"
+        type="hidden"
+        value=""
+      />
     </div>
     <div
       class=" css-1akvy1b-container"
@@ -147,6 +152,11 @@ exports[`CountryDropdowns renders correctly 1`] = `
           </div>
         </div>
       </div>
+      <input
+        name="handlerRight"
+        type="hidden"
+        value=""
+      />
     </div>
   </div>
 </div>

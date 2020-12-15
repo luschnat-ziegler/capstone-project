@@ -90,4 +90,21 @@ describe('CountryDropdowns', () => {
     expect(dropdownLeft).toBeInTheDocument()
     expect(dropdownRight).toBeInTheDocument()
   })
+  /*
+  it('triggers callback on change', () => {
+    const handleDisplayedCountries = jest.fn()
+    const { getByText } = render(
+      <CountryDropdowns
+        countries={countries}
+        displayedCountries={displayedCountriesEmpty}
+        handleDisplayedCountries={handleDisplayedCountries}
+      />
+    )
+
+    const leftdropdown = getByText(/select country 1/i)
+    await selectEvent.select(leftdropdown)
+
+    expect(handleDisplayedCountries).toHaveBeenCalled()
+  })
+  */
 })
