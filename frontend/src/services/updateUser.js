@@ -1,7 +1,8 @@
 import { loadToken } from './tokenStorage'
 
 export default function updateUser(data, apiFetch = fetch, getToken = loadToken) {
-  return apiFetch('http://countrycheck.local/user_update', {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL
+  return apiFetch(`${apiBaseUrl}/user_update`, {
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },
