@@ -63,6 +63,7 @@ const Wrapper = styled.div`
   padding: 10px 5px;
   justify-content: space-between;
   width: 100%;
+  max-width: 800px;
 `
 
 const styles = {
