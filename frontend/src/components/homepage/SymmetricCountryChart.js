@@ -36,10 +36,14 @@ export default function SymmetricCountryChart({ countries, displayOptions }) {
 }
 
 const Wrapper = styled.section`
+  margin-bottom: 100px;
   padding-top: 20px;
   text-align: center;
-  width: 375px;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
   display: grid;
+  max-width: 800px;
   grid-template-columns: 10fr 1fr 10fr;
 `
 

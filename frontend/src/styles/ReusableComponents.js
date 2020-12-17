@@ -3,6 +3,7 @@ import styled from 'styled-components/macro'
 const Wrapper = styled.div`
   margin: 10px;
   width: 355px;
+  padding-bottom: 100px;
 `
 
 const ContentContainer = styled.div`
