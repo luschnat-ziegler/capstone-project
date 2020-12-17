@@ -122,7 +122,7 @@ export default function ProfilePage({ userData, handleStatusChange, status }) {
           handleStatusChange(status === 'toggle' ? 'untoggle' : 'toggle')
         } else {
           dispatchUpdateStatus({ type: postSuccess })
-          alert('Update complete')
+          //alert('Update complete')
           handleStatusChange(status === 'toggle' ? 'untoggle' : 'toggle')
         }
       })
