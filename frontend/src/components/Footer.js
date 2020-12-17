@@ -34,6 +34,7 @@ const NavLinkIcon = styled(NavLink)`
   padding: 20px;
   color: #47477a;
   opacity: 0.6;
+  outline: 0;
 
   &.active {
     color: #00008b;
