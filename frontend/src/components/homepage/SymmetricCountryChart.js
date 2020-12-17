@@ -37,7 +37,7 @@ export default function SymmetricCountryChart({ countries, displayOptions }) {
 
 const Wrapper = styled.section`
   margin-bottom: 100px;
-  padding-top: 20px;
+  padding-top: 0px;
   text-align: center;
   width: 100%;
   padding-left: 10px;
